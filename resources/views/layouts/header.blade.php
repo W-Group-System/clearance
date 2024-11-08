@@ -26,6 +26,7 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{asset('login_design/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
+ 
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('login_design/assets/css/argon-dashboard.css?v=2.0.4')}}" rel="stylesheet" />
     <style>
@@ -165,12 +166,17 @@
       </nav>
             @yield('content')
           </main>
+     
       <script src="{{asset('login_design/assets/js/core/popper.min.js')}}"></script>
       <script src="{{asset('login_design/assets/js/core/bootstrap.min.js')}}"></script>
       <script src="{{asset('login_design/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
       <script src="{{asset('login_design/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
       <script src="{{asset('login_design/assets/js/plugins/chartjs.min.js')}}"></script>
-      <script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+      {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+      <script type="text/javascript">
           function show() {
               document.getElementById("loader").style.display = "block";
           }
@@ -178,6 +184,9 @@
               event.preventDefault();
               document.getElementById('logout-form').submit();
           }
+          $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
         var ctx1 = document.getElementById("chart-line").getContext("2d");
     
         var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
@@ -273,5 +282,6 @@
       <script async defer src="https://buttons.github.io/buttons.js"></script>
       <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
       <script src="{{asset('login_design/assets/js/argon-dashboard.min.js?v=2.0.4')}}"></script>
+      @include('sweetalert::alert')
 </body>
 </html>

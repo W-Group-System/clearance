@@ -25,19 +25,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($resigns as $resign)
-                    <tr>
-                      <td>{{$resign->employee->last_name.", ".$resign->employee->first_name}}</td>
-                      <td>{{$resign->company->company_code}}</td>
-                      <td>{{$resign->department->name}}</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    @endforeach
+                   
                   </tbody>
                 </table>
               </div>

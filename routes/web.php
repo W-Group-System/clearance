@@ -15,6 +15,9 @@
 
 
 Auth::routes();
+
+
+Route::get('clearance-tracker','ResignController@trackClearance');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index')->name('Dashboard');
     Route::get('/home', 'HomeController@index')->name('Dashboard');
@@ -24,5 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/resigned-employees','ResignController@index')->name('Resigned');
     Route::get('/upload','ResignController@upload')->name('Upload Resigned');
     Route::post('/upload','ResignController@store')->name('Upload Resigned');
+
+
 });
 

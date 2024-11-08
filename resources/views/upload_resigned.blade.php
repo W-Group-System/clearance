@@ -1,6 +1,7 @@
 @extends('layouts.header')
 
 @section('content')
+
 <div class="container-fluid py-4">
   <form  method='post' onsubmit='show();' enctype="multipart/form-data">
     {{ csrf_field() }}
@@ -18,43 +19,31 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Name</label>
-                    <input class="form-control" type="text" value="" name='name' placeholder="Name" required>
+                    {{-- <input class="form-control" type="text" value="" name='name' placeholder="Name" required> --}}
+                    <select class='form-control js-example-basic-single chosen-select ' onchange="change_name(this.value)" name='name' required>
+                      <option value=''>Employee</option>
+                      @foreach($employees->sortBy('last_name') as $employee)
+                      <option value='{{$employee->id}}'>{{$employee->last_name}}, {{$employee->first_name}}</option>
+                      @endforeach
+                  </select>
                   </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  Company : <span id='company'></span>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Company Email address</label>
-                    <input class="form-control" type="company_email" value="" name='company_email_address'  placeholder="jesse@example.com">
-                  </div>
+                  Department :  <span id='department'></span>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Company</label>
-                    <select class='form-control' name='company' required>
-                        <option value=''>Company</option>
-                        @foreach($companies as $company)
-                        <option value='{{$company->id}}'>{{$company->code}} - {{$company->name}}</option>
-                        @endforeach
-                    </select>
-                  </div>
+                  Date Hired :  <span id='date_hired'></span>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Department</label>
-                    <select class='form-control' name='department' required>
-                        <option value=''>Department</option>
-                        @foreach($departments as $department)
-                        <option value='{{$department->code}}'>{{$department->name}}</option>
-                        @endforeach
-                    </select>
-                  </div>
+                  Position : <span id='position'></span>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Date Hired</label>
-                    <input class="form-control" type="date" value="" name='date_hired' required>
-                  </div>
-                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Last Date of Employment</label>
@@ -63,43 +52,33 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Reasone for Separation</label>
+                    <label for="example-text-input" class="form-control-label">Reason for Separation</label>
                     <input class="form-control" type="text" placeholder="Reason" name='reason' required>
                   </div>
                 </div>
               </div>
               <hr class="horizontal dark">
-              <p class="text-uppercase text-sm">Contact Information</p>
+              <p class="text-uppercase text-sm">Employee Contact Information</p>
               <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Address</label>
-                    <input class="form-control" type="text" value="" name='address' placeholder="Address" required> 
-                  </div>
-                </div>
-                
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Personal Email Address</label>
                     <input class="form-control" type="email" value="" name='personal_email_address' placeholder="Email" required>
                   </div>
                 </div>
-                
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Personal Phone #</label>
                     <input class="form-control" type="text" value="" name='personal_phone_number' placeholder="Contact #" required>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Alternative Phone #(optional)</label>
-                    <input class="form-control" type="text" value="" name='alternative_phone_number' placeholder="Contact #" >
+                    <label for="example-text-input" class="form-control-label">Address</label>
+                    <input class="form-control" type="text" value="" name='address' placeholder="Address" required> 
                   </div>
                 </div>
-               
               </div>
-             
             </div>
           </div>
         </div>
@@ -139,4 +118,17 @@
     </div>
   </form>
 </div>
+ 
+<script>
+  function change_name(value)
+  {
+    var employees = {!! json_encode($employees->toArray()) !!};
+    var employee = employees.find(emp => emp.id == value);
+
+    document.getElementById("company").textContent=employee.company.company_name;
+    document.getElementById("department").textContent=employee.department.name;
+    document.getElementById("position").textContent=employee.position;
+    document.getElementById("date_hired").textContent=employee.original_date_hired;
+  }
+</script>
 @endsection

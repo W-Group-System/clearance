@@ -24,7 +24,7 @@
               </ul>
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
-                  <a href="{{url('clearance-tracker')}}" class="btn btn-sm mb-0 me-1 btn-primary">Clearance Tracker</a>
+                  {{-- <a href="{{url('clearance-tracker')}}" class="btn btn-sm mb-0 me-1 btn-primary">Clearance Tracker</a> --}}
                 </li>
               </ul>
             </div>
@@ -79,9 +79,9 @@
               </div>
             </div>
             <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
+              <div class="position-relative bg-gradient-warning h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://wgroup.com.ph/wp-content/themes/yootheme/cache/e3/W-CityCenter-e37500ea.webp');
           background-size: cover;">
-                <span class="mask bg-gradient-primary opacity-6"></span>
+                <span class="mask bg-gradient-info opacity-6"></span>
                 <h4 class="mt-5 text-white font-weight-bolder position-relative">"If you're <b>BRAVE</b> enough to say <b>GOODBYE</b>"</h4>
                 <p class="text-white position-relative">life will reward you with a new <b>HELLO</b></p>
               </div>
