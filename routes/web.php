@@ -29,5 +29,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/upload','ResignController@store')->name('Upload Resigned');
 
 
+    Route::get('/signatories','SignatoryController@index')->name('Signatories');
+    Route::post('/signatories','SignatoryController@store')->name('Signatories');
+
+
+    Route::post('add-checklist/{id}','ChecklistController@store');
+    Route::get('/remove-signatories/{id}','ChecklistController@remove');
+
 });
 

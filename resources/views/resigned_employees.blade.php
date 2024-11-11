@@ -19,7 +19,6 @@
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Position</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Date Started</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Effective Date</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Location</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Type</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Status</th>
                     </tr>
@@ -30,12 +29,11 @@
                       <td>{{$resign->employee->last_name.", ".$resign->employee->first_name}}</td>
                       <td>{{$resign->company->company_code}}</td>
                       <td>{{$resign->department->name}}</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>{{$resign->position}}</td>
+                      <td>{{$resign->date_hired}}</td>
+                      <td>{{$resign->last_date}}</td>
+                      <td>{{$resign->type}}</td>
+                      <td>{{$resign->status}}</td>
                     </tr>
                     @endforeach
                   </tbody>
