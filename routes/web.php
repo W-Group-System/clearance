@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/resigned-employees','ResignController@index')->name('Resigned');
     Route::get('/upload','ResignController@upload')->name('Upload Resigned');
     Route::post('/upload','ResignController@store')->name('Upload Resigned');
+    Route::get('setup-clearance/{id}','ResignController@setupClearance')->name('Setup Clearance');
+    Route::post('setup-clearance/{id}','ResignController@setupClearancePost')->name('Setup Clearance');
 
 
     Route::get('/signatories','SignatoryController@index')->name('Signatories');

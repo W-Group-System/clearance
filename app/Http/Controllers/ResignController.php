@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 use App\Resign;
 use App\Company;
 use App\ExitResign;
+use App\ExitClearance;
+use App\ExitClearanceChecklist;
+use App\ExitClearanceSignatory;
+use App\ExitSignatory;
 use App\Employee;
 use App\Department;
 use Illuminate\Http\Request;
@@ -44,6 +48,8 @@ class ResignController extends Controller
         $exitResign->personal_number = $request->personal_phone_number;
         $exitResign->address = $request->address;
         $exitResign->last_date = $request->last_date_of_employment;
+        $exitResign->status = "For Clearance";
+        $exitResign->type = "Resign";
 
         if($request->file('resignation_letter')){
             $logo = $request->file('resignation_letter');
@@ -69,5 +75,56 @@ class ResignController extends Controller
     public function trackClearance(Request $request)
     {
         return view('tracker');
+    }
+    public function setupClearancePost(Request $request,$id)
+    {
+        // dd($request->all());
+        $resignEmployee = ExitResign::findOrfail($id);
+        foreach($request->checklists as $key => $checklist)
+        {
+            $exitClearance = new ExitClearance;
+            $exitClearance->resign_id = $id;
+            $exitClearance->department_id = $key;
+            $exitClearance->employee_id = $resignEmployee->employee_id;
+            $exitClearance->user_id = auth()->user()->id;
+            $exitClearance->status = "Pending";
+            $exitClearance->save();
+            foreach($checklist as $check)
+            {
+                $exitClearanceChecklist = new ExitClearanceChecklist;
+                $exitClearanceChecklist->exit_clearance_id = $exitClearance->id;
+                $exitClearanceChecklist->checklist = $check;
+                $exitClearanceChecklist->user_id = auth()->user()->id;
+                $exitClearanceChecklist->status = "Pending";
+                $exitClearanceChecklist->save();
+            }
+            foreach($request->employees[$key] as $employee)
+            {
+                $ExitClearanceSignatory = new ExitClearanceSignatory;
+                $ExitClearanceSignatory->exit_clearance_id = $exitClearance->id;
+                $ExitClearanceSignatory->department_id = $key;
+                $ExitClearanceSignatory->employee_id = $employee;
+                $ExitClearanceSignatory->user_id = auth()->user()->id;
+                $ExitClearanceSignatory->status = "Pending";
+                $ExitClearanceSignatory->save();
+            }
+        } 
+        $resignEmployee->status = "Ongoing Clearance";   
+        $resignEmployee->save();   
+        Alert::success('Successfully Setup')->persistent('Dismiss');
+        return redirect('resigned-employees');
+    }
+    public function setupClearance (Request $request, $id)
+    {
+        $employees = Employee::where('status','Active')->get();
+        $signatories = ExitSignatory::with('department','checklists','signatories')->where('company_id',1)->get();
+        $resignEmployee = ExitResign::findOrfail($id);
+        return view('setup_clearance',
+            array(
+                'resignEmployee' =>  $resignEmployee,
+                'signatories' =>  $signatories,
+                'employees' =>  $employees,
+            )
+        );
     }
 }
