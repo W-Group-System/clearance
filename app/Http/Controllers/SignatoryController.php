@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Department;
 use App\ExitSignatory;
+use App\ExitSignatorySignatory;
 use Illuminate\Http\Request;
 use App\Employee;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,9 +16,9 @@ class SignatoryController extends Controller
     {
         $company = $request->company;
         $department = $request->department ?? [];
-        $employees = Employees::where('status','Active')->get();
+        $employees = Employee::where('status','Active')->get();
         $companies = Company::get();
-        $signatories = ExitSignatory::with('department','checklists')->where('company_id',$request->company)->get();
+        $signatories = ExitSignatory::with('department','checklists','signatories')->where('company_id',$request->company)->get();
         $signatory_departments = $signatories->pluck('department_id')->toArray();
         $departments = Department::whereNotIn('id',$signatory_departments)->get();
         return view('signatories',array(
@@ -45,6 +46,22 @@ class SignatoryController extends Controller
                 $signatories->save();
             }
      
+        }
+        Alert::success('Successfully Stored')->persistent('Dismiss');
+        return back();
+    }
+    public function addSignatory(Request $request,$id)
+    {
+        $signatories = ExitSignatorySignatory::where('exit_signatory_id',$id)->delete();
+
+        foreach($request->employees as $employee)
+        {
+           
+            $signatories = new ExitSignatorySignatory;
+            $signatories->exit_signatory_id = $id;
+            $signatories->employee_id = $employee;
+            $signatories->save();
+    
         }
         Alert::success('Successfully Stored')->persistent('Dismiss');
         return back();

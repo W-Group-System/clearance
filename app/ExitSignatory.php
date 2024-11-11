@@ -15,4 +15,8 @@ class ExitSignatory extends Model
     {
         return $this->hasMany(ExitChecklist::class);
     }
+    function signatories()
+    {
+        return $this->hasMany(ExitSignatorySignatory::class);
+    }
 }

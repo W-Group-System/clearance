@@ -60,6 +60,12 @@
                             </td>
                             <td>
                                 <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#addSignatory{{$signatory->id}}"><i class="fas fa-plus" aria-hidden="true"></i></button><br>
+                              
+                                @foreach($signatory->signatories as $sign)
+                                <div class="d-flex align-items-center">
+                                    <span>{{$sign->employee->last_name}}, {{$sign->employee->first_name}} </span> <br> 
+                                </div>
+                                @endforeach
                             </td>
                      
                         </tr>

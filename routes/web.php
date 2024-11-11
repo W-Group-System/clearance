@@ -36,5 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('add-checklist/{id}','ChecklistController@store');
     Route::get('/remove-signatories/{id}','ChecklistController@remove');
 
+    Route::post('add-signatory/{id}','SignatoryController@addSignatory');
+
 });
 
