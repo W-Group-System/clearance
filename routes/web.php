@@ -40,5 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('add-signatory/{id}','SignatoryController@addSignatory');
 
+    Route::get('ongoing-clearance','ExitClearanceController@index')->name('Ongoing Clearance');
+
 });
 

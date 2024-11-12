@@ -19,4 +19,8 @@ class ExitResign extends Model
     {
         return $this->belongsTo(Department::class);
     }
+    public function exit_clearance()
+    {
+        return $this->hasMany(ExitClearance::class,'resign_id','id');
+    }
 }

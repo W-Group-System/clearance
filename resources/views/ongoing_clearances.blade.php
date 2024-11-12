@@ -52,7 +52,7 @@
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Resigned Employees <a href='{{url("/upload")}}'><button class="btn btn-primary btn-sm ms-auto">Upload</button></a></h6>
+              <h6>Ongoing Clearance </h6>
             </div>
             <div class="card-body ">
               <div class="table-responsive ">
@@ -67,7 +67,7 @@
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Date Started</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Effective Date</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Type</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Status</th>
+                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Percent</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -92,7 +92,34 @@
                       <td>{{$resign->date_hired}}</td>
                       <td>{{$resign->last_date}}</td>
                       <td>{{$resign->type}}</td>
-                      <td>{{$resign->status}}</td>
+                      <td>
+                            @php
+                                $total = 0;
+                                $cleared = 0;
+                            @endphp
+                            @foreach($resign->exit_clearance as $exit)
+                                @foreach($exit->signatories as $signatory)
+                                    @php
+                                        $total++;
+                                    @endphp
+                                @endforeach
+                                @php
+                                    $cleared = $cleared+count(($exit->signatories)->where('status','Completed'));
+                                    // dd($cleared);
+                                @endphp
+                            @endforeach
+                            @if($cleared != 0)
+                                @php
+                                    $cleared = number_format(($cleared/$total)*100);
+                                @endphp
+                            @endif
+                            <span class="me-2 text-xs font-weight-bold">{{$cleared}}%</span>
+                            <div>
+                              <div class="progress">
+                                <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="{{$cleared}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$cleared}}%;"></div>
+                              </div>
+                            </div>
+                      </td>
                     </tr>
                     @endforeach
                   </tbody>
