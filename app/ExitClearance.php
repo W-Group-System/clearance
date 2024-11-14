@@ -11,4 +11,16 @@ class ExitClearance extends Model
     {
         return $this->hasMany(ExitClearanceSignatory::class);
     }
+    public function checklists()
+    {
+        return $this->hasMany(ExitClearanceChecklist::class);
+    }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+    public function resign()
+    {
+        return $this->belongsTo(ExitResign::class);
+    }
 }

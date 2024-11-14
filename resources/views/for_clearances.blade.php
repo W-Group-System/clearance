@@ -48,11 +48,46 @@
 .show {display:block;}
 </style>
 <div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-3">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-12">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">For Clearance</p>
+                    <h5 class="font-weight-bolder">
+                      {{count($for_clearances->where('status','Pending'))}}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-2 col-sm-6 mb-xl-0 mb-3">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col-12">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Cleared</p>
+                    <h5 class="font-weight-bolder">
+                      {{count($for_clearances->where('status','Completed'))}}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Ongoing Clearance </h6>
+              <h6>For Clearance </h6>
             </div>
             <div class="card-body ">
               <div class="table-responsive ">
@@ -66,59 +101,23 @@
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Position</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Date Started</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Effective Date</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Type</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Percent</th>
+                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Signatory</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($resigns->sortByDesc('created_at') as $resign)
-                    <tr>
-                      <td>
-                         
-                          <div class="dropdown">
-                            <button onclick="myFunction()" class="dropbtn btn btn-primary dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                            <div id="myDropdown" class="dropdown-content">
-                              <a href="{{url('/view-clearance/'.$resign->id)}}" target='_blank'>View</a>
-                            </div>
-                          </div>
-                      </td>
-                      <td>{{$resign->employee->last_name.", ".$resign->employee->first_name}}</td>
-                      <td>{{$resign->company->company_code}}</td>
-                      <td>{{$resign->department->name}}</td>
-                      <td>{{$resign->position}}</td>
-                      <td>{{$resign->date_hired}}</td>
-                      <td>{{$resign->last_date}}</td>
-                      <td>{{$resign->type}}</td>
-                      <td>
-                            @php
-                                $total = 0;
-                                $cleared = 0;
-                            @endphp
-                            @foreach($resign->exit_clearance as $exit)
-                                @foreach($exit->signatories as $signatory)
-                                    @php
-                                        $total++;
-                                    @endphp
-                                @endforeach
-                                @php
-                                    $cleared = $cleared+count(($exit->signatories)->where('status','Completed'));
-                                    // dd($cleared);
-                                @endphp
-                            @endforeach
-                            @if($cleared != 0)
-                                @php
-                                    $cleared = number_format(($cleared/$total)*100);
-                                @endphp
-                            @endif
-                            <span class="me-2 text-xs font-weight-bold">{{$cleared}}%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="{{$cleared}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$cleared}}%;"></div>
-                              </div>
-                            </div>
-                      </td>
-                    </tr>
-                    @endforeach
+                        @foreach($for_clearances->where('status',$status) as $for_clearance)
+                        <tr>
+                            <td></td>
+                            <td>{{$for_clearance->clearance->resign->employee->last_name}},{{$for_clearance->clearance->resign->employee->first_name}}</td>
+                            <td>{{$for_clearance->clearance->resign->employee->company->company_code}}</td>
+                            <td>{{$for_clearance->clearance->resign->employee->department->name}}</td>
+                            <td>{{$for_clearance->clearance->resign->position}}</td>
+                            <td>{{$for_clearance->clearance->resign->employee->original_date_hired}}</td>
+                            <td>{{$for_clearance->clearance->resign->last_date}}</td>
+                            <td></td>
+                        </tr>
+                        @endforeach
+                   
                   </tbody>
                 </table>
               </div>
