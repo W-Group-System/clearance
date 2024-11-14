@@ -73,7 +73,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Cleared</p>
                     <h5 class="font-weight-bolder">
-                      {{count($for_clearances->where('status','Completed'))}}
+                      <a href="{{url('for-clearance?status=Cleared')}}">{{count($for_clearances->where('status','Cleared'))}}</a>
                     </h5>
                   </div>
                 </div>
@@ -94,27 +94,35 @@
                 <table class="table align-items-center justify-content-center ">
                   <thead>
                     <tr>
-                      <th ></th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Name</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Company</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Department</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Position</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Date Started</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Effective Date</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Signatory</th>
+                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Signatory as</th>
                     </tr>
                   </thead>
                   <tbody>
                         @foreach($for_clearances->where('status',$status) as $for_clearance)
-                        <tr>
-                            <td></td>
-                            <td>{{$for_clearance->clearance->resign->employee->last_name}},{{$for_clearance->clearance->resign->employee->first_name}}</td>
+                        <tr >
+                            <td><a href='{{url("view-as-signatory/".$for_clearance->id)}}'>{{$for_clearance->clearance->resign->employee->last_name}}, {{$for_clearance->clearance->resign->employee->first_name}}</a></td>
                             <td>{{$for_clearance->clearance->resign->employee->company->company_code}}</td>
                             <td>{{$for_clearance->clearance->resign->employee->department->name}}</td>
                             <td>{{$for_clearance->clearance->resign->position}}</td>
                             <td>{{$for_clearance->clearance->resign->employee->original_date_hired}}</td>
                             <td>{{$for_clearance->clearance->resign->last_date}}</td>
-                            <td></td>
+                            <td> 
+                                @if($for_clearance->department_id == "immediate_sup")
+                                Immediate Head
+                                @elseif($for_clearance->department_id == "dep_head")
+                                Department Head
+                                @endif
+                                @if($for_clearance->clearance->department)
+                                        {{ $for_clearance->clearance->department->name }}
+                                    @endif
+                            </td>
+                              
                         </tr>
                         @endforeach
                    

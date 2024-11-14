@@ -101,7 +101,7 @@
                                     @endphp
                                 @endforeach
                                 @php
-                                    $cleared = $cleared+count(($exit->signatories)->where('status','Completed'));
+                                    $cleared = $cleared+count(($exit->signatories)->where('status','Cleared'));
                                     // dd($cleared);
                                 @endphp
                             @endforeach

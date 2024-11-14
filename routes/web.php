@@ -43,6 +43,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ongoing-clearance','ExitClearanceController@index')->name('Ongoing Clearance');
     Route::get('view-clearance/{id}','ExitClearanceController@view')->name('View Clearance');
     Route::get('for-clearance','ExitClearanceController@forClearance')->name('For Clearance');
+    Route::get('view-as-signatory/{id}','ExitClearanceController@viewAsSignatory')->name('Signatory');
+    Route::post('new-comment/{id}','ExitClearanceController@submitComment');
+
+    Route::post('change-status-checklist/{id}','ExitClearanceController@changestatus')->name('Change Status');
+    Route::post('mark-as-cleared/{id}','ExitClearanceController@cleared')->name('Change Status');
 
 
 });
