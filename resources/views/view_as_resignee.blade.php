@@ -96,9 +96,8 @@
                     <small>
                         @foreach($for_clearances->clearance->checklists as $checklist)
                             {{$checklist->checklist}} <span class="badge badge-white btn @if($checklist->status == "Pending") btn-danger @else btn-success @endif" data-toggle="modal" data-target="#checklistStatus{{$checklist->id}}">{{$checklist->status}}</span><br>
-                            @if(in_array(auth()->user()->employee->id, $exitClearanceIds))
+                            
                             @include('checklist_change_status')
-                            @endif
                         @endforeach
                         
                     </small>
@@ -139,7 +138,6 @@
                     
                 </div>
               </div>
-              @if(in_array(auth()->user()->employee->id, $exitClearanceIds))
               @if($for_clearances->status == "Pending")
               <div class='row'>
                 <div class='col-md-12'>
@@ -147,7 +145,6 @@
                 </div>
               </div>
               @include('mark_as_done')
-              @endif
               @endif
             </div>
           </div>
@@ -201,6 +198,7 @@
                         </small>
                         </div>
                       </div>
+                      <hr>
                       @endforeach
                   </div>
               </div>

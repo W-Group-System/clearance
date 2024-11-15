@@ -9,13 +9,12 @@
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Resigned this Month</p>
+                  <p class="text-sm mb-0 text-uppercase font-weight-bold">For Clearance</p>
                   <h5 class="font-weight-bolder">
-                    0
+                    
+                    {{count($resigns->where('status','Pending'))}}
                   </h5>
                   <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder">+55%</span>
-                    since last month
                   </p>
                 </div>
               </div>
@@ -34,13 +33,12 @@
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Resigned this Year</p>
+                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Ongoing Clearance</p>
                   <h5 class="font-weight-bolder">
-                    2,300
+                  
+                    {{count($resigns->where('status','Ongoing Clearance'))}}
                   </h5>
                   <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder">0%</span>
-                    since last year
                   </p>
                 </div>
               </div>
@@ -59,13 +57,11 @@
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-uppercase font-weight-bold">For Clearance</p>
+                  <p class="text-sm mb-0 text-uppercase font-weight-bold">Cleared</p>
                   <h5 class="font-weight-bolder">
-                   0
+                    {{count($resigns->where('status','Cleared'))}}
                   </h5>
                   <p class="mb-0">
-                    <span class="text-danger text-sm font-weight-bolder">0</span>
-                    more than 30 days
                   </p>
                 </div>
               </div>
@@ -84,12 +80,11 @@
             <div class="row">
               <div class="col-8">
                 <div class="numbers">
-                  <p class="text-sm mb-0 text-uppercase font-weight-bold">For Final Pay</p>
+                  <p class="text-sm mb-0 text-uppercase font-weight-bold">For Release</p>
                   <h5 class="font-weight-bolder">
-                    0
+                    {{count($resigns->where('status','For For Release'))}}
                   </h5>
                   <p class="mb-0">
-                    <span class="text-success text-sm font-weight-bolder">0</span> closed
                   </p>
                 </div>
               </div>

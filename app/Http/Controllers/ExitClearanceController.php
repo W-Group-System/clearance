@@ -46,13 +46,67 @@ class ExitClearanceController extends Controller
 
     public function viewAsSignatory (Request $request,$id)
     {   
-
         $for_clearances = ExitClearanceSignatory::with('clearance.department')->where('employee_id',auth()->user()->employee->id)->where('id',$id)->first();   
+        
+        $exitClearanceIds = ExitClearanceSignatory::where('exit_clearance_id', $for_clearances->exit_clearance_id)->pluck('employee_id')->toArray();
         $resign = ExitResign::with('exit_clearance.department','exit_clearance.checklists','exit_clearance.signatories')->findOrfail($for_clearances->clearance->resign_id);
         return view('view_as_signatory',array(
             'for_clearances'=>$for_clearances,
             'resignEmployee'=>$resign,
+            'exitClearanceIds'=>$exitClearanceIds,
         ));
+
+    }
+    public function viewComments(Request $request,$id)
+    {   
+        $employeeId = auth()->user()->employee->id;
+        $exitClearanceIds = ExitClearanceSignatory::where('exit_clearance_id', $id)->pluck('employee_id')->toArray();
+        $exit = ExitClearance::findOrFail($id);
+
+        // Check if the current user is authorized to view the page
+        if ($exit->employee_id == $employeeId || in_array($employeeId, $exitClearanceIds) || auth()->user()->clearance_admin == 1) {
+            // Retrieve the necessary data once
+            $for_clearances = ExitClearanceSignatory::with('clearance.department')
+                ->where('exit_clearance_id', $exit->id)
+                ->first();
+
+            $resign = ExitResign::with('exit_clearance.department', 'exit_clearance.checklists', 'exit_clearance.signatories')
+                ->findOrFail($for_clearances->clearance->resign_id);
+
+            return view('view_as_signatory', [
+                'for_clearances' => $for_clearances,
+                'exitClearanceIds' => $exitClearanceIds,
+                'resignEmployee' => $resign,
+            ]);
+        }
+
+        // If user is not authorized
+        Alert::error('You are not allowed to view this page.')->persistent('Dismiss');
+        return redirect('home');
+
+    }
+    public function viewMyClearance()
+    {   
+        $employeeId = auth()->user()->employee->id;
+        // dd($employeeId); 
+        $resignExit = ExitResign::with('exit_clearance.department','exit_clearance.checklists','exit_clearance.signatories')->where('employee_id',auth()->user()->employee->id)->where('status','!=','Retracted')->first();
+        
+        if($resignExit)
+        {
+            return view('view_clearance',array(
+                'resignEmployee'=>$resignExit
+            ));
+        }
+        else
+        {
+            Alert::error('Your clearance is not yet processed, please coordinate with HR.')->persistent('Dismiss');
+            return redirect('home');
+        }
+       
+
+        // If user is not authorized
+        // Alert::error('You are not allowed to view this page.')->persistent('Dismiss');
+        // return redirect('home');
 
     }
     public function submitComment(Request $request,$id)
@@ -74,14 +128,14 @@ class ExitClearanceController extends Controller
         $checklist->save();
 
         $comment = new ExitClearanceComment;
-        $remarks = "<span>Checklist: ".$request->checklist." <br>".$request->old_status." -> ".$request->status."</span> <br> Remarks : ".$request->remarks."<br> ";
+        $remarks = "<span>Checklist: ".$request->checklist." <br>".$request->old_status." &#x2192; ".$request->status."</span> <br> Remarks : ".$request->remarks."<br> ";
         if($request->file('proof')){
             $proof = $request->file('proof');
             $original_name = $proof->getClientOriginalName();
             $name = time() . '_' . $proof->getClientOriginalName();
             $proof->move(public_path() . '/proof/', $name);
             $file_name = '/proof/' . $name;
-            $remarks = $remarks."<a class='btn btn-sm btn-danger' href='".url($file_name)."'  target='blank'>Proof</a> ";
+            $remarks = $remarks."<a class='btn btn-sm btn-success' href='".url($file_name)."'  target='blank'>".$original_name."</a> ";
         }
         $comment->remarks = $remarks;
         $comment->exit_clearance_id = $checklist->exit_clearance_id;
@@ -94,6 +148,17 @@ class ExitClearanceController extends Controller
     }
     public function cleared(Request $request,$id)
     {
+        $exit_signatory = ExitClearanceSignatory::findOrfail($id);
+        $signatories = ExitClearanceSignatory::where('exit_clearance_id',$exit_signatory->exit_clearance_id)->where('id','!=',$id)->where('status','Pending')->count();
+        if($signatories == 0)
+        {
+            $exitChecklist = ExitClearanceChecklist::where('status','Pending')->where('exit_clearance_id',$exit_signatory->exit_clearance_id)->count();
+            if($exitChecklist > 0 )
+            {
+                Alert::error('Kindly complete the entire checklist, or mark items as "N/A" if they are not applicable.')->persistent('Dismiss');
+                return back();
+            }
+        }
         $exit_signatory = ExitClearanceSignatory::findOrfail($id);
         $exit_signatory->status = "Cleared";
         $exit_signatory->save();

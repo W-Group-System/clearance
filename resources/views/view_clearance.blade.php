@@ -24,10 +24,10 @@
                     Department: {{$resignEmployee->department->name}}
                 </div>
                 <div class='col-md-12'>
-                    Date Started: {{date('M d, Y',strtotime($resignEmployee->date_hired))}}
+                    Date Hired: {{date('M d, Y',strtotime($resignEmployee->date_hired))}}
                 </div>
                 <div class='col-md-12'>
-                    Last date: {{date('M d, Y',strtotime($resignEmployee->last_date))}}
+                    Last date: <b>{{date('M d, Y',strtotime($resignEmployee->last_date))}}</b>
                 </div>
 
               </div>
@@ -77,7 +77,8 @@
                 @csrf
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                  <h6>Clearance Form  <button type="button" class="btn btn-primary">Print</button></h6> 
+                  <h6>Clearance Form  
+                    <button type="button" class="btn btn-primary">Print</button></h6> 
                 </div>
                 <div class="card-body ">
                     <div class="table-responsive ">
@@ -93,7 +94,8 @@
                             @foreach($resignEmployee->exit_clearance as $exit)
                             <tr>
                                 
-                                <td>
+                                <td >
+                                  
                                 @if($exit->department_id == "immediate_sup")
                                 Immediate Sup
                                 @elseif($exit->department_id == "dep_head")
@@ -102,11 +104,16 @@
                                 @if($exit->department)
                                         {{ $exit->department->name }}
                                     @endif
+                                    <br>
+                                    <a href="{{url('view-comments/'.$exit->id)}}" target="_blank">
+                                 
+                                        <button   type='button' class='btn btn-info btn-sm' > <span class="badge badge-white btn btn-danger mb-0">{{count($exit->comments)}}</span> View Comments</button>
+                                    </a>
                                     </td>
                                 <td>
                                     <small>
                                         @foreach($exit->checklists as $checklist)
-                                            {{$checklist->checklist}} <span class="badge badge-white btn btn-danger">Pending</span><br>
+                                            {{$checklist->checklist}} <span class="badge badge-white btn @if($checklist->status == "Pending") btn-danger @else btn-success @endif" data-toggle="modal" data-target="#checklistStatus{{$checklist->id}}">{{$checklist->status}}</span><br>
                                         @endforeach
                                     </small>
 

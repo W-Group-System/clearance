@@ -60,11 +60,7 @@
                   <thead>
                     <tr>
                       <th ></th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Name</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Company</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Department</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Position</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Date Started</th>
+                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Employee</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Effective Date</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Type</th>
                       <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Status</th>
@@ -74,22 +70,21 @@
                     @foreach($resigns->sortByDesc('created_at') as $resign)
                     <tr>
                       <td>
-                         
                           <div class="dropdown">
-                            <button onclick="myFunction()" class="dropbtn btn btn-primary dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                            <div id="myDropdown" class="dropdown-content">
-                              @if($resign->status === "For Clearance")
+                            <button onclick="myFunction({{$resign->id}})" class="dropbtn btn btn-primary dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+                            <div id="myDropdown{{$resign->id}}" class="dropdown-content">
+                              @if($resign->status == "For Clearance")
                               <a href="{{url('setup-clearance/'.$resign->id)}}" target='_blank'>Setup Clearance</a>
+                              @else
+                              <a href="{{url('view-clearance/'.$resign->id)}}" target='_blank'>View</a>
                               @endif
-                              <a href="#">View</a>
                             </div>
                           </div>
                       </td>
-                      <td>{{$resign->employee->last_name.", ".$resign->employee->first_name}}</td>
-                      <td>{{$resign->company->company_code}}</td>
-                      <td>{{$resign->department->name}}</td>
-                      <td>{{$resign->position}}</td>
-                      <td>{{$resign->date_hired}}</td>
+                      <td>{{$resign->employee->last_name.", ".$resign->employee->first_name}}
+                        <p class="text-xs text-secondary mb-0">{{$resign->company->company_code}} : {{$resign->department->name}} <br>
+                          {{$resign->position}}<br>Date Hired: {{$resign->date_hired}}</p>
+                      </td>
                       <td>{{$resign->last_date}}</td>
                       <td>{{$resign->type}}</td>
                       <td>{{$resign->status}}</td>
@@ -104,8 +99,8 @@
       </div>
 </div>
 <script>
-  function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
+  function myFunction(id) {
+  document.getElementById("myDropdown"+id).classList.toggle("show");
 }
 
 // Close the dropdown menu if the user clicks outside of it

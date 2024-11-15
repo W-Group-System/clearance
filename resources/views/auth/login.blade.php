@@ -24,7 +24,7 @@
               </ul>
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
-                  {{-- <a href="{{url('clearance-tracker')}}" class="btn btn-sm mb-0 me-1 btn-primary">Clearance Tracker</a> --}}
+                  <a href="{{url('clearance-tracker')}}" class="btn btn-sm mb-0 me-1 btn-primary">Clearance Tracker</a>
                 </li>
               </ul>
             </div>

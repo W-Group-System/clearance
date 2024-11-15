@@ -68,6 +68,15 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link " href="{{url('/my-clearance')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">My Clearance</span>
+            </a>
+          </li>
+          @if(auth()->user()->clearance_admin)
+          <li class="nav-item">
             <a class="nav-link " href="{{url('/resigned-employees')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
@@ -83,6 +92,8 @@
               <span class="nav-link-text ms-1">Ongoing Clearance</span>
             </a>
           </li>
+          
+          @endif
           <li class="nav-item">
             <a class="nav-link " href="{{url('for-clearance')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -92,6 +103,7 @@
               <span class="nav-link-text ms-1">For Clearance </span> &nbsp; <span class="badge badge-white btn btn-primary">{{for_clearance()}}</span>
             </a>
           </li>
+          @if(auth()->user()->clearance_admin)
         <li class="nav-item">
             <a class="nav-link " href="{{url('/cleared')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -127,6 +139,9 @@
               <span class="nav-link-text ms-1">Signatories</span>
             </a>
           </li>
+          
+          
+          @endif
         </ul>
       </div>
       <div class="sidenav-footer mx-3 ">
