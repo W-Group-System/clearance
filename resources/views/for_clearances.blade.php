@@ -57,7 +57,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">For Clearance</p>
                     <h5 class="font-weight-bolder">
-                      {{count($for_clearances->where('status','Pending'))}}
+                        <a href="{{url('for-clearance?status=Pending')}}"> {{count($for_clearances->where('status','Pending'))}}</a>
                     </h5>
                   </div>
                 </div>

@@ -113,7 +113,7 @@
                                 <td>
                                     <small>
                                         @foreach($exit->checklists as $checklist)
-                                            {{$checklist->checklist}} <span class="badge badge-white btn @if($checklist->status == "Pending") btn-danger @else btn-success @endif" data-toggle="modal" data-target="#checklistStatus{{$checklist->id}}">{{$checklist->status}}</span><br>
+                                        <span class="badge badge-white btn @if($checklist->status == "Pending") btn-danger @else btn-success @endif" data-toggle="modal" data-target="#checklistStatus{{$checklist->id}}">{{$checklist->status}}</span> {{$checklist->checklist}} <br>
                                         @endforeach
                                     </small>
 
@@ -122,12 +122,13 @@
                                     
                                     <small>
                                         @foreach($exit->signatories as $signatory)
-                                            {{$signatory->employee->last_name}}, {{$signatory->employee->first_name}} 
                                             @if($signatory->status == "Pending")
                                             <span class="badge badge-white btn btn-danger">{{$signatory->status}}</span>
                                             @else
                                             <span class="badge badge-white btn btn-success">{{$signatory->status}}</span>
                                             @endif
+                                            {{$signatory->employee->last_name}}, {{$signatory->employee->first_name}} 
+                                            
                                             <br>
                                         @endforeach
                                     </small>
