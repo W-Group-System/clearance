@@ -111,8 +111,18 @@ class ExitClearanceController extends Controller
     }
     public function submitComment(Request $request,$id)
     {
+        // dd($request->all());
         $comment = new ExitClearanceComment;
-        $comment->remarks = $request->observation;
+        $remarks = $request->observation."<br> ";
+        if($request->file('file')){
+            $proof = $request->file('file');
+            $original_name = $proof->getClientOriginalName();
+            $name = time() . '_' . $proof->getClientOriginalName();
+            $proof->move(public_path() . '/files/', $name);
+            $file_name = '/files/' . $name;
+            $remarks = $remarks."<a class='btn btn-sm btn-success' href='".url($file_name)."'  target='blank'>".$original_name."</a> ";
+        }
+        $comment->remarks = $remarks;
         $comment->exit_clearance_id = $id;
         $comment->user_id = auth()->user()->id;
         $comment->save();
@@ -159,6 +169,17 @@ class ExitClearanceController extends Controller
                 return back();
             }
         }
+        $resign_employee = ExitClearance::where('resign_id',$exit_signatory->clearance->resign_id)->pluck('id')->toArray();
+        $all_signatories = ExitClearanceSignatory::whereIn('exit_clearance_id',$resign_employee)->where('status',"Pending")->count();
+        if($all_signatories == 0)
+        {
+            $update = ExitResign::where('id',$exit_signatory->clearance->resign_id)->first();
+            $update->status = 'Cleared';
+            $update->date_cleared = date('Y-m0d');
+            $update->save();
+
+        }
+        
         $exit_signatory = ExitClearanceSignatory::findOrfail($id);
         $exit_signatory->status = "Cleared";
         $exit_signatory->save();
@@ -173,5 +194,15 @@ class ExitClearanceController extends Controller
 
         return back();
 
+    }
+
+
+    public function clear_index(Request $request)
+    {
+        $resigns = ExitResign::with('exit_clearance.signatories')->where('status','Cleared')->get();
+        // dd($resigns);
+        return view('cleared',array(
+            'resigns'=>$resigns
+        ));
     }
 }

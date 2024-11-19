@@ -29,10 +29,16 @@ class UploadResignation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Acknowledgment of Resignation and Acceptance Letter Details')
+        return $this->subject('Acknowledgment of Resignation - '.$this->request_data['employee_info']->first_name.' '.$this->request_data['employee_info']->last_name)
         ->view('emails.upload_resignation')
         ->with([
-            'details'  =>  $this->request_data
+            'data'  =>  $this->request_data
+        ])
+        ->attach(public_path($this->request_data['last_employment']->acceptance_letter), [
+            'as' => 'acceptance-letter.pdf', // Optional: Set custom file name
+        ])
+        ->attach(public_path($this->request_data['last_employment']->resignation_letter), [
+            'as' => 'resignation-letter.pdf', // Optional: Set custom file name
         ]);
     }
 }

@@ -1,96 +1,96 @@
 @extends('layouts.header')
 
 @section('content')
-<style>
-  /* Dropdown Button */
-.dropbtn {
-  background-color: #3498DB;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
 
-/* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #2980B9;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ffffff;}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
-</style>
 <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Ongoing Clearance </h6>
-            </div>
-            <div class="card-body ">
-              <div class="table-responsive ">
-                <table class="table align-items-center justify-content-center ">
-                  <thead>
-                    <tr>
-                      <th ></th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Name</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Company</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Department</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Position</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Date Started</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Effective Date</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Type</th>
-                      <th class='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Percent</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($resigns->sortByDesc('created_at') as $resign)
-                    <tr>
-                      <td>
-                         
-                          <div class="dropdown">
-                            <button onclick="myFunction()" class="dropbtn btn btn-primary dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                            <div id="myDropdown" class="dropdown-content">
-                              <a href="{{url('/view-clearance/'.$resign->id)}}" target='_blank'>View</a>
-                            </div>
-                          </div>
-                      </td>
-                      <td>{{$resign->employee->last_name.", ".$resign->employee->first_name}}</td>
-                      <td>{{$resign->company->company_code}}</td>
-                      <td>{{$resign->department->name}}</td>
-                      <td>{{$resign->position}}</td>
-                      <td>{{$resign->date_hired}}</td>
-                      <td>{{$resign->last_date}}</td>
-                      <td>{{$resign->type}}</td>
-                      <td>
-                            @php
+  <div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            {{-- <div class="page-title-right">
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-light" id="dash-daterange">
+                        <span class="input-group-text bg-primary border-primary text-white">
+                            <i class="mdi mdi-calendar-range font-13"></i>
+                        </span>
+                    </div>
+                    <a href="javascript: void(0);" class="btn btn-primary ms-2">
+                        <i class="mdi mdi-autorenew"></i>
+                    </a>
+                    <a href="javascript: void(0);" class="btn btn-primary ms-1">
+                        <i class="mdi mdi-filter-variant"></i>
+                    </a>
+                </form>
+            </div> --}}
+            <h4 class="page-title">Ongoing Clearance</h4>
+        </div>
+    </div>
+</div>
+      <div class="row">
+        @foreach($resigns->sortByDesc('created_at') as $resign)
+        <div class="col-lg-6 col-xxl-3">
+          <!-- project card -->
+          <div class="card d-block">
+              <div class="card-body">
+                  <!-- project title-->
+                  <h4 class="mt-0">
+                   
+                    
+                    <a href="{{url('/view-clearance/'.$resign->id)}}" class="text-title"> 
+                    <img src="{{get_avatar($resign->employee->id)}}" onerror="this.src='{{ URL::asset('/images/no_image.png') }}';" class="rounded-circle avatar-sm border-rounded  border-primary text-primary" alt="friend" height="64">
+                    <p class="m-0 d-inline-block align-middle font-16">
+                      <a href="{{url('/view-clearance/'.$resign->id)}}" class="text-body">{{$resign->employee->last_name.", ".$resign->employee->first_name}} </a>
+                      <br>
+                      <small class="me-2"><b>Date Hired:</b> {{date('M d, Y',strtotime($resign->employee->original_date_hired))}} </small><br>
+                      {{-- <small><b>Last Date:</b> Brown </small> --}}
+                    </p>
+                    </a>
+                  </h4>
+                  <div class="badge bg-success mb-2">{{$resign->type}} - {{date('M d, Y',strtotime($resign->last_date))}} </div> 
+
+                  <p class="text-muted font-13 mb-2"><strong>Company :</strong> <span class="ms-2">{{$resign->company->company_code}}</span> 
+                    <br> <strong>Department :</strong> <span class="ms-2">{{$resign->department->name}}</span> 
+                    <br> <strong>Position :</strong> <span class="ms-2">{{$resign->position}}</span> 
+                  </a>
+                  </p>
+
+                  <!-- project detail-->
+                  <p class="mb-1">
+                      <span class="pe-2 text-nowrap mb-2 d-inline-block">
+                          <i class="mdi mdi-format-list-bulleted-type text-muted"></i>
+                          @php
+                              $checklists = 0;
+                              $checklists_done = 0;
+                              $comments = 0;
+                              $signatories = 0;
+                              $signatories_done = 0;
+                          @endphp
+                          @foreach($resign->exit_clearance as $exitClearance)
+                              @php
+                                  $checklists = $checklists + count($exitClearance->checklists);
+                                  $signatories = $signatories + count($exitClearance->signatories);
+                                  $comments = $comments + count($exitClearance->comments);
+                                  $checklists_done = $checklists_done + count(($exitClearance->checklists)->where('status','!=','Pending'));
+                                  $signatories_done = $signatories_done + count(($exitClearance->signatories)->where('status','!=','Pending'));
+                              @endphp
+                          @endforeach
+                          <b>{{$checklists_done}}/{{$checklists}}</b> Checklists
+                      </span>
+                      
+                      <span class="text-nowrap mb-2 d-inline-block">
+                        <i class="mdi mdi-account-check text-muted"></i>
+                        <b>{{$signatories_done}}/{{$signatories}}</b> Signatories
+                    </span>
+                      <span class="text-nowrap mb-2 d-inline-block">
+                          <i class="mdi mdi-comment-multiple-outline text-muted"></i>
+                          <b>{{$comments}}</b> Comments
+                      </span>
+                  </p>
+              </div> <!-- end card-body-->
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item p-3">
+                      <!-- project progress-->
+                        @php
                                 $total = 0;
                                 $cleared = 0;
                             @endphp
@@ -110,23 +110,20 @@
                                     $cleared = number_format(($cleared/$total)*100);
                                 @endphp
                             @endif
-                            <span class="me-2 text-xs font-weight-bold">{{$cleared}}%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="{{$cleared}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$cleared}}%;"></div>
-                              </div>
-                            </div>
-                      </td>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+                      <p class="mb-2 fw-bold">Progress <span class="float-end">{{$cleared}}%</span></p>
+                      <div class="progress progress-sm">
+                          <div class="progress-bar" role="progressbar" aria-valuenow="{{$cleared}}" aria-valuemin="0" aria-valuemax="100" style="width: {{$cleared}}%;">
+                          </div><!-- /.progress-bar -->
+                      </div><!-- /.progress -->
+                  </li>
+              </ul>
+          </div> <!-- end card-->
+      </div> <!-- end col -->
+
+        @endforeach
+      
       </div>
-</div>
+  </div>
 <script>
   function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");

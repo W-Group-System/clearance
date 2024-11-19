@@ -26,10 +26,12 @@ class HomeController extends Controller
 
         // Get resignations for the current year
         $resigns = ExitResign::get();
+        $resignThisMonth = ExitResign::whereYear('created_at',date('Y'))->whereMonth('created_at',date('m'))->get();
         // dd($resigns_old);
         return view('home',
         array(
             'resigns' => $resigns,
+            'resignThisMonth' => $resignThisMonth,
         ));
     }
 }

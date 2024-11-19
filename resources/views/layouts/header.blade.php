@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="shortcut icon" href="{{ URL::asset('login_design/assets/img/apple-icon.png')}}">
+    <link rel="shortcut icon" href="{{ URL::asset('images/m.png')}}">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
@@ -15,21 +15,17 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <!-- Nucleo Icons -->
-    <link href="{{asset('login_design/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
-    <link href="{{asset('login_design/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="{{asset('login_design/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
  
-    <!-- CSS Files -->
-    <link id="pagestyle" href="{{asset('login_design/assets/css/argon-dashboard.css?v=2.0.4')}}" rel="stylesheet" />
-    <style>
+ 
+        <!-- third party css -->
+    <link href="{{asset('inside_login/assets/css/vendor/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css">
+    <!-- third party css end -->
+
+    <!-- App css -->
+    <link href="{{asset('inside_login/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('inside_login/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="light-style">
+    <link href="{{asset('inside_login/assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style">
+   <style>
       .loader {
             position: fixed;
             left: 0px;
@@ -44,146 +40,243 @@
       </style>
 </head>
 
-<body class="g-sidenav-show   bg-gray-100">
+<body  class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
   <div id="loader" style="display:none;" class="loader">
   </div>
-    <div class="min-height-300 bg-primary position-absolute w-100"></div>
-    <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
-      <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="{{url('/')}}" target="_blank">
-          <img src="{{asset('/login_design/assets/img/logo-ct-dark.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-          <span class="ms-1 font-weight-bold">Clearance</span>
+    <div class="wrapper">
+      <!-- ========== Left Sidebar Start ========== -->
+      <div class="leftside-menu">
+
+          <!-- LOGO -->
+          <a href="{{url('/')}}" class="logo text-center logo-light">
+              <span class="logo-lg">
+                  <img src="{{asset('/images/m.png')}}" alt="" height="100">
+              </span>
+              <span class="logo-sm">
+                  <img src="{{asset('/images/m.png')}}" alt="" height="16">
+              </span>
+          </a>
+
+          <!-- LOGO -->
+          <a href="{{url('/')}}" class="logo text-center logo-dark">
+            <span class="logo-lg">
+                <img src="{{asset('/images/m.png')}}" alt="" height="100">
+            </span>
+            <span class="logo-sm">
+                <img src="{{asset('/images/m.png')}}" alt="" height="16">
+            </span>
         </a>
-      </div>
-      <hr class="horizontal dark mt-0">
-      <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('/')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('/my-clearance')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">My Clearance</span>
-            </a>
-          </li>
-          @if(auth()->user()->clearance_admin)
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('/resigned-employees')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Resigned Employees</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('ongoing-clearance')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Ongoing Clearance</span>
-            </a>
-          </li>
-          
-          @endif
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('for-clearance')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-bullet-list-67 text-danger text-sm opacity-10"></i>
-              </div>
+        <hr class="bg-white mt-3">
+          <div class="h-100" id="leftside-menu-container" data-simplebar="">
+
+              <!--- Sidemenu -->
+              <ul class="side-nav">
+                  @if(auth()->user()->clearance_admin)
+                  <li class="side-nav-title side-nav-item">HR Admin</li>
+
+                  <li class="side-nav-item">
+                    <a  href="{{url('/')}}"  class="side-nav-link">
+                        <i class="uil-home-alt"></i>
+                        <span> Dashboard </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/resigned-employees')}}" class="side-nav-link">
+                        <i class="uil-exit"></i>
+                        <span class="badge bg-success float-end">{{for_setup()}}</span>
+                        <span> Resign Employees </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/ongoing-clearance')}}" class="side-nav-link">
+                        <i class="uil-exchange"></i>
+                        <span class="badge bg-warning float-end">{{ongoing_clearance()}}</span>
+                        <span> Ongoing Clearances </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/cleared')}}" class="side-nav-link">
+                        <i class="uil-file-check"></i>
+                        <span class="badge bg-success float-end">{{cleared()}}</span>
+                        <span> Cleared </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/for-computation')}}" class="side-nav-link">
+                        <i class="uil-calculator-alt"></i>
+                        <span class="badge bg-success float-end">{{ongoing_computation()}}</span>
+                        <span> Ongoing Computation </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/for-released')}}" class="side-nav-link">
+                        <i class="uil-envelope-send"></i>
+                        <span class="badge bg-success float-end">{{for_release()}}</span>
+                        <span> For Released </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/released')}}" class="side-nav-link">
+                        <i class="uil-user-check"></i>
+                        <span> Released </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-item">
+                    <a  href="{{url('/signatories')}}" class="side-nav-link">
+                        <i class="uil-user-plus"></i>
+                        <span> Signatories </span>
+                    </a>
+                  </li>
+                  @endif
+                  <li class="side-nav-title side-nav-item">As Resignee</li>
+
+                  <li class="side-nav-item">
+                    <a  href="{{url('/my-clearance')}}"  class="side-nav-link">
+                        <i class="uil-list-ui-alt"></i>
+                        <span> My Clearance </span>
+                    </a>
+                  </li>
+                  <li class="side-nav-title side-nav-item">As Signatory</li>
+
+                  <li class="side-nav-item">
+                    <a href="{{url('for-clearance')}}"  class="side-nav-link">
+                        <i class="uil-check"></i>
+                        
+                        <span class="badge bg-success float-end">{{for_clearance()}}</span>
+                        <span> For Approval</span>
+                    </a>
+                  </li>
+
+              </ul>
+
             
-              <span class="nav-link-text ms-1">For Clearance </span> &nbsp; <span class="badge badge-white btn btn-primary">{{for_clearance()}}</span>
-            </a>
-          </li>
-          @if(auth()->user()->clearance_admin)
-        <li class="nav-item">
-            <a class="nav-link " href="{{url('/cleared')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-app text-info text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Cleared</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('ready-for-pickup')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">For Pick Up</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('released')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Released</span>
-            </a>
-          </li>
-          <li class="nav-item mt-3">
-            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Admin</h6>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " href="{{url('signatories')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-collection text-info text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Signatories</span>
-            </a>
-          </li>
-          
-          
-          @endif
-        </ul>
-      </div>
-      <div class="sidenav-footer mx-3 ">
-        <div class="card card-plain shadow-none" id="sidenavCard">
-          <div class="card-body text-center p-3 w-100 pt-0">
-            <div class="docs-info">
-              <h6 class="mb-0">&nbsp;</h6>
-            </div>
+
           </div>
-        </div>
-        <a class="btn btn-primary btn-sm mb-0 w-100" href="#" onclick="logout(); show();" type="button">Logout</a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
+          <!-- Sidebar -left -->
+
       </div>
-    </aside>
-    <main class="main-content position-relative border-radius-lg ">
-      <!-- Navbar -->
-      <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-        <div class="container-fluid py-1 px-3">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-              <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-              <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ Route::current()->getName()}}</li>
-            </ol>
-            <h6 class="font-weight-bolder text-white mb-0">{{ Route::current()->getName()}}</h6>
-          </nav>
-        
-        </div>
-      </nav>
-            @yield('content')
-          </main>
-     
-      <script src="{{asset('login_design/assets/js/core/popper.min.js')}}"></script>
-      <script src="{{asset('login_design/assets/js/core/bootstrap.min.js')}}"></script>
-      <script src="{{asset('login_design/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
-      <script src="{{asset('login_design/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
-      <script src="{{asset('login_design/assets/js/plugins/chartjs.min.js')}}"></script>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-      {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+      <!-- Left Sidebar End -->
+
+      <!-- ============================================================== -->
+      <!-- Start Page Content here -->
+      <!-- ============================================================== -->
+
+      <div class="content-page">
+          <div class="content">
+              <!-- Topbar Start -->
+              <div class="navbar-custom">
+                  <ul class="list-unstyled topbar-menu float-end mb-0">
+
+                      <li class="dropdown notification-list">
+                          <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                              <span class="account-user-avatar"> 
+                                  <img src="{{get_avatar(auth()->user()->employee->id)}}"  onerror="this.src='{{ URL::asset('/images/no_image.png') }}';"  alt="user-image" class="rounded-circle">
+                              </span>
+                              <span>
+                                  <span class="account-user-name">{{auth()->user()->employee->first_name}}</span>
+                                  <span class="account-position">{{auth()->user()->employee->position}}</span>
+                              </span>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+                              <!-- item-->
+                              <div class=" dropdown-header noti-title">
+                                  <h6 class="text-overflow m-0">Welcome !</h6>
+                              </div>
+{{-- 
+                              <!-- item-->
+                              <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                  <i class="mdi mdi-account-circle me-1"></i>
+                                  <span>My Account</span>
+                              </a>
+
+                              <!-- item-->
+                              <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                  <i class="mdi mdi-account-edit me-1"></i>
+                                  <span>Settings</span>
+                              </a>
+
+                              <!-- item-->
+                              <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                  <i class="mdi mdi-lifebuoy me-1"></i>
+                                  <span>Support</span>
+                              </a>
+
+                              <!-- item-->
+                              <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                  <i class="mdi mdi-lock-outline me-1"></i>
+                                  <span>Lock Screen</span>
+                              </a> --}}
+
+                              <!-- item-->
+                              <a href="#" onclick="logout(); show();" class="dropdown-item notify-item">
+                                  <i class="mdi mdi-logout me-1"></i>
+                                  <span>Logout</span>
+                              </a>
+                              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                          </div>
+                      </li>
+                  </ul>
+                  <button class="button-menu-mobile open-left">
+                      <i class="mdi mdi-menu"></i>
+                  </button>
+                
+              </div>
+              <!-- end Topbar -->
+              
+              <!-- Start Content-->
+              <div class="container-fluid">
+                @yield('content')
+                 
+                  <!-- end row -->
+
+              </div>
+              <!-- container -->
+
+          </div>
+          <!-- content -->
+
+          <!-- Footer Start -->
+          <footer class="footer">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <script>document.write(new Date().getFullYear())</script> © W Developers
+                      </div>
+                     
+                  </div>
+              </div>
+          </footer>
+          <!-- end Footer -->
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- End Page content -->
+      <!-- ============================================================== -->
+
+
+    </div>
+    <div class="rightbar-overlay"></div>
+    <!-- /End-bar -->
+
+    <!-- bundle -->
+    <script src="{{asset('inside_login/assets/js/vendor.min.js')}}"></script>
+    <script src="{{asset('inside_login/assets/js/app.min.js')}}"></script>
+
+    <!-- third party js -->
+    <script src="{{asset('inside_login/assets/js/vendor/apexcharts.min.js')}}"></script>
+    <script src="{{asset('inside_login/assets/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
+    <script src="{{asset('inside_login/assets/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
+    <!-- third party js ends -->
+    <script>
+      $('.modal-select').select2({
+          dropdownParent: $('.modal')
+      });
+  </script>
+    <!-- demo app -->
+    <script src="{{asset('inside_login/assets/js/pages/demo.dashboard.js')}}"></script>
       <script type="text/javascript">
           function show() {
               document.getElementById("loader").style.display = "block";
@@ -192,104 +285,9 @@
               event.preventDefault();
               document.getElementById('logout-form').submit();
           }
-          $(document).ready(function () {
-            $('.js-example-basic-single').select2();
-        });
-        var ctx1 = document.getElementById("chart-line").getContext("2d");
     
-        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
-    
-        gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
-        gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
-        gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
-        new Chart(ctx1, {
-          type: "line",
-          data: {
-            labels: ["Jan","Feb","Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [{
-              label: "Resigned",
-              tension: 0.4,
-              borderWidth: 0,
-              pointRadius: 0,
-              borderColor: "#5e72e4",
-              backgroundColor: gradientStroke1,
-              borderWidth: 3,
-              fill: true,
-              data: [0,1,2,3, 4, 5, 6, 7, 8, 9, 10, 11],
-              maxBarThickness: 6
-    
-            }],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false,
-              }
-            },
-            interaction: {
-              intersect: false,
-              mode: 'index',
-            },
-            scales: {
-              y: {
-                grid: {
-                  drawBorder: false,
-                  display: true,
-                  drawOnChartArea: true,
-                  drawTicks: false,
-                  borderDash: [5, 5]
-                },
-                ticks: {
-                  display: true,
-                  padding: 10,
-                  color: '#fbfbfb',
-                  font: {
-                    size: 11,
-                    family: "Open Sans",
-                    style: 'normal',
-                    lineHeight: 2
-                  },
-                }
-              },
-              x: {
-                grid: {
-                  drawBorder: false,
-                  display: false,
-                  drawOnChartArea: false,
-                  drawTicks: false,
-                  borderDash: [5, 5]
-                },
-                ticks: {
-                  display: true,
-                  color: '#ccc',
-                  padding: 20,
-                  font: {
-                    size: 11,
-                    family: "Open Sans",
-                    style: 'normal',
-                    lineHeight: 2
-                  },
-                }
-              },
-            },
-          },
-        });
       </script>
-      <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-          var options = {
-            damping: '0.5'
-          }
-          Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-      </script>
-    <!-- Github buttons -->
-      <script async defer src="https://buttons.github.io/buttons.js"></script>
-      <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-      <script src="{{asset('login_design/assets/js/argon-dashboard.min.js?v=2.0.4')}}"></script>
+      
       @include('sweetalert::alert')
 </body>
 </html>

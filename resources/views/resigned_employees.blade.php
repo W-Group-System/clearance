@@ -47,7 +47,6 @@
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 </style>
-<div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
           <div class="card mb-4">
@@ -96,8 +95,8 @@
             </div>
           </div>
         </div>
-      </div>
-</div>
+    </div>
+   
 <script>
   function myFunction(id) {
   document.getElementById("myDropdown"+id).classList.toggle("show");

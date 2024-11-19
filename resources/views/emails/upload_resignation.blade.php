@@ -310,8 +310,8 @@
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
-                  <p>Hi Mr. Cuevas,</p>
-                  <p>This is to inform you that the company acknolwedges your resignatioon effective January 1, 2025. Your last working day is on December 20, 2024. Kindly read carefully and understand the Acceptance Letter. </p>
+                  <p>Hi {{$data['employee_info']->last_name}},</p>
+                  <p>This is to inform you that the company acknowledge your resignation effective {{date('F d, Y',strtotime($data['last_employment']->last_date))}}. Your last working day is on {{ date('F d, Y', strtotime($data['last_employment']->last_date . ' +1 day')) }}. Kindly read carefully and understand the Acceptance Letter. </p>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                     <tbody>
                       <tr>
@@ -327,7 +327,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <p>Please visit our W Exit Management Portal (insert link) to complete your clearance. If you have any concerns or questions, kindly email hrd@wgroup.com.ph or hrd@rico.com.ph </p>
+                  <p>Please visit our W Exit Management Portal <a href="https://clearance.wsystem.online" target="_blank">W-Exit Portal</a> to complete your clearance. If you have any concerns or questions, kindly email hrd@wgroup.com.ph or hrd@rico.com.ph </p>
                   <p>Regards, <br>
                      W Exit
                 </p>

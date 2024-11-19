@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     //
+
     public function beneficiaries(){
         return $this->hasMany(EmployeeBeneficiary::class,'user_id','user_id');
+    }
+    public function resign(){
+        return $this->hasOne(ExitResign::class);
     }
     
     public function contact_person(){

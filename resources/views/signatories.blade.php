@@ -11,7 +11,7 @@
                         <div class='col-md-4'>
                             <div class="form-group">
                                 <label class="text-right">Company</label>
-                                <select data-placeholder="Select Company" class="form-control form-control-sm required " style='width:100%;' name='company'  required>
+                                <select data-placeholder="Select Company" data-toggle="select2" class="form-control form-control-sm required select2" style='width:100%;' name='company'  required>
                                     <option value="">-- Select Company --</option>
                                     @foreach($companies->sortBy('company_code') as $comp)
                                     <option value="{{$comp->id}}" @if ($comp->id == $company) selected @endif>{{$comp->company_code}}</option>
@@ -47,7 +47,8 @@
                     @foreach($signatories as $signatory)
                         <tr>
                             <td>{{$signatory->department->name}}</td>
-                            <td><button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#addChecklist{{$signatory->id}}"><i class="fas fa-plus" aria-hidden="true"></i></button>
+                            <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addChecklist{{$signatory->id}}"><i class='uil-plus'></i></button>
+                                
                                 @foreach($signatory->checklists as $checklist)
                                 <div class="d-flex align-items-center">
                                     <span>{{$checklist->checklist}}</span>

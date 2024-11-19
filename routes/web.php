@@ -52,6 +52,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('mark-as-cleared/{id}','ExitClearanceController@cleared')->name('Change Status');
 
 
+    Route::get('cleared','ExitClearanceController@clear_index')->name('Cleared');
+
+
     
 
 });

@@ -1,4 +1,4 @@
-<div class="modal fade" id="addSignatory{{$signatory->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade modal" id="addSignatory{{$signatory->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -11,7 +11,7 @@
                     <div class='col-md-12'>
                         <div class="form-group">
                             <label class="text-right">Employee</label>
-                            <select data-placeholder="Select Company" class="form-control form-control-sm required js-example-basic-single" style='width:100%;' name='employees[]' multiple required>
+                            <select data-placeholder="Select Company" class="form-control modal-select form-control-sm required select2-multiple" data-toggle="select2" style='width:100%;' name='employees[]' multiple required>
                                 <option value="">-- Select Department --</option>
                                 @foreach($employees as $employee)
                                 <option value="{{$employee->id}}" @if (in_array($employee->id,($signatory->signatories)->pluck('employee_id')->toArray())) selected @endif>{{$employee->last_name}}, {{$employee->first_name}}</option>
@@ -29,4 +29,4 @@
       </div>
     </div>
   </div>
-  
+ 

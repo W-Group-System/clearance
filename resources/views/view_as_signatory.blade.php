@@ -1,14 +1,22 @@
 @extends('layouts.header')
 
 @section('content')
-<script src="https://cdn.tiny.cloud/1/yemsbvzrf507kpiivlpanbssgxsf1tatzwwtu81qli4yre3p/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>tinymce.init({
-    selector:'textarea',
-    content_style: "p { margin: 0; }",    
-    });</script>
 <div class="container-fluid py-4">
     <div class="row">
+      
         <div class="col-4">
+          <div class="card text-center">
+            <div class="card-body">
+                <img src="{{get_avatar($resignEmployee->employee->id)}}" onerror="this.src='{{ URL::asset('/images/no_image.png') }}';"  class="rounded-circle avatar-lg img-thumbnail border-danger" alt="profile-image">
+
+                <h4 class="mb-0 mt-2">{{$resignEmployee->employee->last_name}}, {{$resignEmployee->employee->first_name}}</h4>
+                <p class="text-muted font-14">{{$resignEmployee->employee->position}}</p>
+                @if(($for_clearances->department_id == "immediate_sup") || ($for_clearances->department_id == "dept_head"))
+                <a href="{{url($resignEmployee->resignation_letter)}}" target='_blank'><button type="button" class="btn btn-success btn-sm mb-2">Resignation Letter</button></a>
+                <a href="{{url($resignEmployee->acceptance_letter)}}" target='_blank'><button type="button" class="btn btn-danger btn-sm mb-2">Acceptance Letter</button></a>
+                @endif
+            </div> <!-- end card-body -->
+          </div>
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>Employment Information</h6>
@@ -59,25 +67,10 @@
               </div>
             </div>
           </div> --}}
-          @if(($for_clearances->department_id == "immediate_sup") || ($for_clearances->department_id == "dept_head"))
-            <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Attachments</h6>
-            </div>
-            <div class="card-body ">
-              <div class='row'>
-                <div class='col-md-12'>
-                    Resignation Letter: <a href="{{url($resignEmployee->resignation_letter)}}" target='_blank'><i class="fas fa-file text-success" aria-hidden="true"></i></a>
-                </div>
-                <div class='col-md-12'>
-                    Acceptance Letter: <a href="{{url($resignEmployee->acceptance_letter)}}" target='_blank'><i class="fas fa-file text-success" aria-hidden="true"></i></a>
-                </div>
-                
-
-              </div>
-            </div>
-          </div>
-          @endif
+        
+         
+        </div>
+        <div class='col-4'>
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>@if($for_clearances->department_id == "immediate_sup")
@@ -111,8 +104,9 @@
           </div>
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Complete List of Signatories in 
+              <h6>Signatories in 
                 @if($for_clearances->department_id == "immediate_sup")
+                  Immediate Head
                 @elseif($for_clearances->department_id == "dep_head")
                  Department Head
                 @endif
@@ -123,19 +117,16 @@
             <div class="card-body ">
               <div class='row'>
                 <div class='col-md-12'>
-                    <small>
-                        <small>
                             @foreach($for_clearances->clearance->signatories as $signatory)
-                                {{$signatory->employee->last_name}}, {{$signatory->employee->first_name}} @if($signatory->employee->user_id == auth()->user()->id) (You) @endif
-                                @if($signatory->status == "Pending")
+                       
+                            <img src="{{get_avatar($signatory->employee->id)}}" onerror="this.src='{{ URL::asset('/images/no_image.png') }}';"  class="rounded-circle img-thumbnail avatar-sm @if($signatory->status == "Pending") border-danger @else border-success @endif" alt="profile-image"> {{$signatory->employee->last_name}}, {{$signatory->employee->first_name}} @if($signatory->employee->user_id == auth()->user()->id) (You) @endif
+                                {{-- @if($signatory->status == "Pending")
                                 <span class="badge badge-white btn btn-danger">{{$signatory->status}}</span>
                                 @else
                                 <span class="badge badge-white btn btn-success">{{$signatory->status}}</span>
-                                @endif
+                                @endif --}}
                                 <br>
                             @endforeach
-                        </small>
-                    </small>
                     
                 </div>
               </div>
@@ -151,63 +142,50 @@
               @endif
             </div>
           </div>
-         
         </div>
+        
         <div class='col-4'>
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                  <h6>Comments</h6>
+          <div class="card">
+            <div class="card-body">
+              <form method='post' action="{{url('new-comment/'.$for_clearances->clearance->id)}}" enctype="multipart/form-data">
+                @csrf
+                <h4 class="mt-0 mb-3">Comments ({{count($for_clearances->clearance->comments)}})</h4>
+
+                <textarea class="form-control form-control-light mb-2" placeholder="Write message" id="example-textarea" name='observation' rows="5" required></textarea>
+                <div class="text-end mb-2">
+                     
+                        <input type="file"  name='file' class="form-control">
+                    <div class="btn-group mt-2 mb-2 ms-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                    </div>
                 </div>
-                <form method='post' action="{{url('new-comment/'.$for_clearances->clearance->id)}}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="card-body ">
-                    <div class='row'>
-                        <div class='col-md-12'>
-                            <textarea name='observation' class='observation' id='observation' placeholder="Input your comment here" ></textarea>
-                        </div>
+              </form>
+              @foreach($for_clearances->clearance->comments->sortByDesc('created_at') as $comment)
+              <div class="border border-light rounded p-2 mb-3">
+                <div class="d-flex">
+                    <img class="me-2 rounded-circle"  src="" onerror="this.src='{{ URL::asset('/images/no_image.png') }}';" alt="Generic placeholder image" height="32">
+                    <div>
+                        <h5 class="m-0">{{$comment->user->name}}</h5>
+                        <p class="text-muted"><small>{{date('h:i A - M d, Y',strtotime($comment->updated_at))}}</small></p>
                     </div>
-                    <div class='row'>
-                        <div class='col-md-12 text-right'>
-                            <br>    
-                            <button type='submit'  class="btn btn-primary" >Submit</button>
-                        </div>
-                    </div>
-                    </div>
-                </form>
+                </div>
+                <p> {!! $comment->remarks !!}</p>
               </div>
+              @endforeach
+               
 
+            </div> <!-- end card-body-->
+          </div>
         </div>
-        
-        <div class='col-4'>
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6>Activities</h6>
-                  </div>
-                  <div class="card-body ">
-                    @foreach($for_clearances->clearance->comments->sortByDesc('created_at') as $comment)
-                    <div class="d-flex px-2 py-1">
-                        <div>
-                          <img src="../assets/img/team-2.jpg" onerror="this.src='{{ URL::asset('/images/no_image.png') }}';" class="avatar avatar-sm me-3" alt="user1">
-                        </div>
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">{{$comment->user->name}}</h6>
-                          <p class="text-xs text-secondary mb-0">{{date('h:i A - M d, Y',strtotime($comment->updated_at))}}</p>
-                          <small>
-                            <div class="well">
-                            
-                                    {!! $comment->remarks !!}
-                
-                            </div>
-                        </small>
-                        </div>
-                      </div>
-                      @endforeach
-                  </div>
-              </div>
-
-        </div>
-        
     </div>
 </div>
-
+<script>
+function displayFileName(event) {
+  const fileInput = event.target;  // The file input element
+  const fileName = fileInput.files[0]?.name || 'No file selected';  // Get the file name or default text
+  
+  // Update the text input with the file name
+  document.getElementById('fileName').value = fileName;
+}
+</script>
 @endsection

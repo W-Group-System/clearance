@@ -6,6 +6,7 @@ use App\Company;
 use App\Mail\UploadResignation;
 use Illuminate\Support\Facades\Mail;
 use App\ExitResign;
+use App\User;
 use App\ExitReason;
 use App\ExitClearance;
 use App\ExitClearanceChecklist;
@@ -22,7 +23,7 @@ class ResignController extends Controller
     public function index()
     {
  
-        $resigns = ExitResign::get();
+        $resigns = ExitResign::whereDoesntHave('exit_clearance')->get();
         return view('resigned_employees',array(
             'resigns'=>$resigns));
     }
@@ -32,7 +33,7 @@ class ResignController extends Controller
         $companies = Company::get();
         $departments = Department::get();
         $reasons = ExitReason::get();
-        $employees = Employee::with('company','department')->where('status','Active')->get();
+        $employees = Employee::with('company','department')->whereDoesntHave('resign')->where('status','Active')->get();
         return view('upload_resigned',array(
             'companies' => $companies,
             'departments' => $departments,
@@ -56,7 +57,6 @@ class ResignController extends Controller
         $exitResign->last_date = $request->last_date_of_employment;
         $exitResign->status = "For Clearance";
         $exitResign->type = "Resign";
-
         if($request->file('resignation_letter')){
             $logo = $request->file('resignation_letter');
             $original_name = $logo->getClientOriginalName();
@@ -74,11 +74,15 @@ class ResignController extends Controller
             $exitResign->acceptance_letter = $file_name;
         }
         $exitResign->save();
-        // $data = [];
-        // $send_update = Mail::to()->send(new UploadResignation($data));
+     
+        $users_admin = User::where('clearance_admin','1')->where('status','Active')->pluck('email')->toArray();
+        $data = [];
+        $data['employee_info'] = $employee;
+        $data['last_employment'] = $exitResign;
+        $send_update = Mail::to([$exitResign->personal_email, $employee->user_info->email])->cc($users_admin)->send(new UploadResignation($data));
         // $send_update = Mail::to("renz.cabato@wgroup.com.ph")->send(new LeaveNotification($details));
         Alert::success('Successfully Stored')->persistent('Dismiss');
-        return back();
+        return redirect('resigned-employees');
 
     }
     public function trackClearance(Request $request)
