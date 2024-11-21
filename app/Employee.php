@@ -14,6 +14,9 @@ class Employee extends Model
     public function resign(){
         return $this->hasOne(ExitResign::class);
     }
+    public function as_resign(){
+        return $this->hasMany(ExitClearanceSignatory::class);
+    }
     
     public function contact_person(){
         return $this->hasOne(EmployeeContactPerson::class,'user_id','user_id');

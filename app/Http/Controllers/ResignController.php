@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Resign;
 use App\Company;
 use App\Mail\UploadResignation;
+use App\Mail\SetupClearance;
+use App\Mail\Signatory;
 use Illuminate\Support\Facades\Mail;
 use App\ExitResign;
 use App\User;
@@ -91,8 +93,12 @@ class ResignController extends Controller
     }
     public function setupClearancePost(Request $request,$id)
     {
-        // dd($request->all());
+       
         $resignEmployee = ExitResign::findOrfail($id);
+        $employeeResign = Employee::findOrfail($resignEmployee->employee_id);
+        $data = [];
+        $data['employee_info'] = $employeeResign;
+        $send_update = Mail::to([$resignEmployee->personal_email, $employeeResign->user_info->email])->send(new SetupClearance($data));
         foreach($request->checklists as $key => $checklist)
         {
             $exitClearance = new ExitClearance;
@@ -113,6 +119,7 @@ class ResignController extends Controller
             }
             foreach($request->employees[$key] as $employee)
             {
+           
                 $ExitClearanceSignatory = new ExitClearanceSignatory;
                 $ExitClearanceSignatory->exit_clearance_id = $exitClearance->id;
                 $ExitClearanceSignatory->department_id = $key;
@@ -120,6 +127,13 @@ class ResignController extends Controller
                 $ExitClearanceSignatory->user_id = auth()->user()->id;
                 $ExitClearanceSignatory->status = "Pending";
                 $ExitClearanceSignatory->save();
+
+                $employee_signatory = Employee::findOrfail($employee);
+                $data = [];
+                $data['employee_info'] = $employee_signatory;
+                $data['resignee_info'] = $employeeResign;
+
+                $send_update = Mail::to([$employee_signatory->user_info->email])->send(new Signatory($data));
             }
         } 
         $resignEmployee->status = "Ongoing Clearance";   

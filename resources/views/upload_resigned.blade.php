@@ -47,7 +47,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="example-text-input" class="form-control-label">Reason for Separation</label>
-                  <select class='form-control js-example-basic-single chosen-select ' name='reason' required>
+                  <select class='form-control js-example-basic-single chosen-select ' name='reason' >
                       <option value=''></option>
                       @foreach($reasons as $reason)
                       <option value='{{$reason->reason}}'>{{$reason->reason}}</option>
