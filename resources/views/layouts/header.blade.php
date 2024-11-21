@@ -84,7 +84,7 @@
                     <a  href="{{url('/resigned-employees')}}" class="side-nav-link">
                         <i class="uil-exit"></i>
                         <span class="badge bg-success float-end">{{for_setup()}}</span>
-                        <span> Resign Employees </span>
+                        <span> Resigned Employees </span>
                     </a>
                   </li>
                   <li class="side-nav-item">
@@ -127,7 +127,7 @@
                         <span> Signatories </span>
                     </a>
                   </li>
-                  <li class="side-nav-title side-nav-item">As Resignee</li>
+                  {{-- <li class="side-nav-title side-nav-item">As Resignee</li>
 
                   <li class="side-nav-item">
                     <a  href="{{url('/my-clearance')}}"  class="side-nav-link">
@@ -144,7 +144,7 @@
                         <span class="badge bg-success float-end">{{for_clearance()}}</span>
                         <span> For Approval</span>
                     </a>
-                  </li>
+                  </li> --}}
                   @endif
 
               </ul>
