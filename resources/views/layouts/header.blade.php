@@ -102,17 +102,10 @@
                     </a>
                   </li>
                   <li class="side-nav-item">
-                    <a  href="{{url('/for-computation')}}" class="side-nav-link">
-                        <i class="uil-calculator-alt"></i>
-                        <span class="badge bg-success float-end">{{ongoing_computation()}}</span>
-                        <span> Ongoing Computation </span>
-                    </a>
-                  </li>
-                  <li class="side-nav-item">
-                    <a  href="{{url('/for-released')}}" class="side-nav-link">
+                    <a  href="{{url('/for-release')}}" class="side-nav-link">
                         <i class="uil-envelope-send"></i>
                         <span class="badge bg-success float-end">{{for_release()}}</span>
-                        <span> For Released </span>
+                        <span> For Release </span>
                     </a>
                   </li>
                   <li class="side-nav-item">

@@ -86,6 +86,17 @@
                           <b>{{$comments}}</b> Comments
                       </span>
                   </p>
+                  <br>
+                  <span>Date Cleared: {{date('M d, Y',strtotime($resign->date_cleared))}}</span> <br>
+                  @php
+                    $d1 = new DateTime($resign->created_at);
+                    $d2 = new DateTime($resign->date_cleared);
+                    $d3 = new DateTime();
+                    $diff = $d2->diff($d1);
+                    $diff_computation = $d2->diff($d3);
+                @endphp
+                  <span>TAT Clearance Completed: {{$diff->d}} Day/s</span> <br>
+                  <span>Computation Days: {{$diff_computation->d}} Day/s</span>
               </div> <!-- end card-body-->
               <ul class="list-group list-group-flush">
                   <li class="list-group-item p-3">
