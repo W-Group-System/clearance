@@ -24,7 +24,7 @@
               </ul>
               <ul class="navbar-nav d-lg-block d-none">
                 <li class="nav-item">
-                  <a href="{{url('clearance-tracker')}}" class="btn btn-sm mb-0 me-1 btn-primary">Clearance Tracker</a>
+                  {{-- <a href="{{url('clearance-tracker')}}" class="btn btn-sm mb-0 me-1 btn-primary">Clearance Tracker</a> --}}
                 </li>
               </ul>
             </div>
@@ -73,7 +73,7 @@
                 @endif
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    <a href="{{ route('password.request') }}" class="text-primary text-gradient font-weight-bold">Forgot password?</a>
+                    {{-- <a href="{{ route('password.request') }}" class="text-primary text-gradient font-weight-bold">Forgot password?</a> --}}
                   </p>
                 </div>
               </div>

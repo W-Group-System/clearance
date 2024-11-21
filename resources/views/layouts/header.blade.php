@@ -127,7 +127,6 @@
                         <span> Signatories </span>
                     </a>
                   </li>
-                  @endif
                   <li class="side-nav-title side-nav-item">As Resignee</li>
 
                   <li class="side-nav-item">

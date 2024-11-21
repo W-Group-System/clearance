@@ -1,6 +1,7 @@
 @extends('layouts.header')
 
 @section('content')
+@if(auth()->user()->clearance_admin)
    <!-- start page title -->
    <div class="row">
     <div class="col-12">
@@ -486,4 +487,5 @@
         </div>
     </div>
   </div> --}}
+  @endif
 @endsection
