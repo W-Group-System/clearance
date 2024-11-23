@@ -1,6 +1,8 @@
 @extends('layouts.header')
 
 @section('content')
+
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-8">
@@ -54,24 +56,40 @@
                                     <span>{{$checklist->checklist}}</span>
                                     <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center" data-toggle="modal" 
                                     href="#" onclick="return doConfirm({{$checklist->id}});">
-                                        <i class="fas fa-minus" aria-hidden="true"></i>
+                                        <i class="uil-minus" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 @endforeach
                             </td>
                             <td>
-                                <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#addSignatory{{$signatory->id}}"><i class="fas fa-plus" aria-hidden="true"></i></button><br>
-                              
-                                @foreach($signatory->signatories as $sign)
+                                
+                                <form method='post' action="{{url('add-signatory/'.$signatory->id)}}" enctype="multipart/form-data">
+                                    <button type="submit float-right" class="btn btn-success mb-2">Save</button>
+                                    
+                                {{-- @foreach($signatory->signatories as $sign)
                                 <div class="d-flex align-items-center">
                                     <span>{{$sign->employee->last_name}}, {{$sign->employee->first_name}} </span> <br> 
                                 </div>
-                                @endforeach
+                                @endforeach --}}
+                               
+                                        @csrf
+                                                    <select data-placeholder="Select Employees" class="form-control form-control-sm required select2-multiple" data-toggle="select2" multiple="multiple"  name='employees[]' multiple required>
+                                                        <option value="">-- Select Employees --</option>
+                                                        @foreach($employees as $employee)
+                                                        <option value="{{$employee->id}}" value="{{$employee->id}}" @if (in_array($employee->id,($signatory->signatories)->pluck('employee_id')->toArray())) selected @endif>{{$employee->last_name}}, {{$employee->first_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class='text-right'>
+                                               
+                                                    </div>
+                                               
+                                    
+                                </form>
                             </td>
                      
                         </tr>
                         @include('add_checklist')
-                        @include('add_signatory')
+                        {{-- @include('add_signatory') --}}
                     @endforeach
                   </tbody>
                 </table>
@@ -94,7 +112,7 @@
                             <div class='col-md-12'>
                                 <div class="form-group">
                                     <label class="text-right">Department</label>
-                                    <select data-placeholder="Select Company" class="form-control form-control-sm required js-example-basic-single" style='width:100%;' name='departments[]' multiple required>
+                                    <select data-placeholder="Select Company" class="form-control form-control-sm required  chosen-select"  style='width:100%;' name='departments[]' multiple required>
                                         <option value="">-- Select Department --</option>
                                         @foreach($departments as $dept)
                                         <option value="{{$dept->id}}" @if (in_array($dept->id,$department)) selected @endif>{{$dept->name}}</option>
@@ -114,6 +132,7 @@
         </div>
         
 </div>
+
 <script>
         
         function doConfirm(id) {
@@ -129,6 +148,5 @@
 
     return false; // This prevents the default behavior of the event (e.g., form submission)
 }
-        
     </script>
 @endsection
