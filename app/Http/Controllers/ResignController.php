@@ -144,8 +144,16 @@ class ResignController extends Controller
     public function setupClearance (Request $request, $id)
     {
         $employees = Employee::where('status','Active')->get();
-        $signatories = ExitSignatory::with('department','checklists','signatories')->where('company_id',1)->get();
         $resignEmployee = ExitResign::findOrfail($id);
+        
+        $employee = Employee::where('id',$resignEmployee->employee_id)->first();
+        $signatories = ExitSignatory::with('department','checklists','signatories')->where('company_id',$employee->company_id)->get();
+       
+        if (count($signatories) == 0) {
+            $signatories = ExitSignatory::with('department', 'checklists', 'signatories')
+                ->where('company_id', 1)
+                ->get();
+        }
         return view('setup_clearance',
             array(
                 'resignEmployee' =>  $resignEmployee,
