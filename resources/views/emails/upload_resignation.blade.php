@@ -311,7 +311,7 @@
               <tr>
                 <td class="wrapper">
                   <p>Hi {{$data['employee_info']->last_name}},</p>
-                  <p>This is to inform you that the company acknowledge your resignation effective {{date('F d, Y',strtotime($data['last_employment']->last_date))}}. Your last working day is on {{ date('F d, Y', strtotime($data['last_employment']->last_date . ' +1 day')) }}. Kindly read carefully and understand the Acceptance Letter. </p>
+                  <p>This is to inform you that the company acknowledge your resignation effective {{ date('F d, Y', strtotime($data['last_employment']->last_date . ' +1 day')) }}. Your last working day is on {{date('F d, Y',strtotime($data['last_employment']->last_date))}}. Kindly read carefully and understand the Acceptance Letter. </p>
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                     <tbody>
                       <tr>
