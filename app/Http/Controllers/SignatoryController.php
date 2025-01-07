@@ -7,6 +7,7 @@ use App\ExitSignatory;
 use App\ExitSignatorySignatory;
 use Illuminate\Http\Request;
 use App\Employee;
+use App\ExitClearanceSignatory;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SignatoryController extends Controller
@@ -64,6 +65,16 @@ class SignatoryController extends Controller
     
         }
         Alert::success('Successfully Stored')->persistent('Dismiss');
+        return back();
+    }
+
+    public function update(Request $request,$id)
+    {
+        $signatories = ExitClearanceSignatory::findOrFail($id);
+        $signatories->employee_id = $request->employee;
+        $signatories->save();
+
+        Alert::success('Successfully Updated')->persistent('Dismiss');
         return back();
     }
 }

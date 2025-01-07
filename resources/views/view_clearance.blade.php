@@ -119,13 +119,15 @@
                                     <small>
                                         @foreach($exit->signatories as $signatory)
                                             @if($signatory->status == "Pending")
-                                            <span class="badge badge-white btn btn-danger">{{$signatory->status}}</span>
+                                            <span class="badge badge-white btn btn-danger" data-bs-toggle="modal" data-bs-target="#edit{{$signatory->id}}">{{$signatory->status}}</span>
                                             @else
                                             <span class="badge badge-white btn btn-success">{{$signatory->status}}</span>
                                             @endif
                                             {{$signatory->employee->last_name}}, {{$signatory->employee->first_name}} 
                                             
                                             <br>
+
+                                            @include('edit_signatory')
                                         @endforeach
                                     </small>
 

@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('cleared','ExitClearanceController@clear_index')->name('Cleared');
 
+    Route::post('update-signatories/{id}', 'SignatoryController@update');
 
     
 

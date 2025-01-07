@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Employee;
 use App\ExitResign;
 use App\ExitClearance;
 use App\ExitClearanceComment;
@@ -25,8 +27,11 @@ class ExitClearanceController extends Controller
     {
         $resign = ExitResign::with('exit_clearance.department','exit_clearance.checklists','exit_clearance.signatories')->findOrfail($id);
         // dd($resigns);
+        $employees = Employee::where('status','Active')->get();
+        
         return view('view_clearance',array(
-            'resignEmployee'=>$resign
+            'resignEmployee'=>$resign,
+            'employees' => $employees
         ));
     }
     public function forClearance(Request $request)

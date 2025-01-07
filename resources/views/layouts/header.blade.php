@@ -25,6 +25,8 @@
     <link href="{{asset('inside_login/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('inside_login/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="light-style">
     <link href="{{asset('inside_login/assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style">
+
+    <link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
    <style>
       .loader {
             position: fixed;
@@ -262,11 +264,14 @@
     <script src="{{asset('inside_login/assets/js/vendor/apexcharts.min.js')}}"></script>
     <script src="{{asset('inside_login/assets/js/vendor/jquery-jvectormap-1.2.2.min.js')}}"></script>
     <script src="{{asset('inside_login/assets/js/vendor/jquery-jvectormap-world-mill-en.js')}}"></script>
+    <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
     <!-- third party js ends -->
     <script>
       $('.modal-select').select2({
           dropdownParent: $('.modal')
       });
+
+        $(".chosen-select").chosen({width:"100%"})
   </script>
     <!-- demo app -->
     <script src="{{asset('inside_login/assets/js/pages/demo.dashboard.js')}}"></script>
