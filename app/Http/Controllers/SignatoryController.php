@@ -70,9 +70,26 @@ class SignatoryController extends Controller
 
     public function update(Request $request,$id)
     {
-        $signatories = ExitClearanceSignatory::findOrFail($id);
-        $signatories->employee_id = $request->employee;
-        $signatories->save();
+        // dd($request->all());
+        // $signatories = ExitClearanceSignatory::findOrFail($id);
+        // $signatories->employee_id = $request->employee;
+        // $signatories->save();
+
+        $signatories = ExitClearanceSignatory::where('exit_clearance_id', $request->exit_clearance_id)
+            ->where('department_id', $request->department_id)
+            ->where('status','Pending')
+            ->delete();
+        
+        foreach($request->employee as $employee)
+        {
+            $signatories = new ExitClearanceSignatory();
+            $signatories->employee_id = $employee;
+            $signatories->department_id = $request->department_id;
+            $signatories->status = 'Pending';
+            $signatories->user_id = auth()->user()->id;
+            $signatories->exit_clearance_id = $request->exit_clearance_id;
+            $signatories->save();
+        }
 
         Alert::success('Successfully Updated')->persistent('Dismiss');
         return back();
