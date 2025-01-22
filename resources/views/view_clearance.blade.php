@@ -71,8 +71,13 @@
                 @csrf
             <div class="card mb-4">
                 <div class="card-header pb-0">
-                  <h6>Clearance Form  
-                    <button type="button" class="btn btn-primary">Print</button></h6> 
+                    <h6>Clearance Form  
+                        {{-- <button type="button" class="btn btn-primary">Print</button></h6>  --}}
+                        <a href="{{url('generate-clearance-form/'.$resignEmployee->id)}}" class="btn btn-primary" target="_blank">
+                            <i class="dripicons-print"></i>
+                            Print
+                        </a>
+                    </h6> 
                 </div>
                 <div class="card-body ">
                     <div class="table-responsive ">

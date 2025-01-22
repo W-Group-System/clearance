@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('update-signatories/{id}', 'SignatoryController@update');
 
-    
+    Route::get('generate-clearance-form/{id}','ExitClearanceController@generateClearanceForm');
 
 });
 

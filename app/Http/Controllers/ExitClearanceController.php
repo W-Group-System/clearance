@@ -9,6 +9,7 @@ use App\ExitClearanceComment;
 use App\ExitClearanceChecklist;
 use App\ExitClearanceSignatory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 class ExitClearanceController extends Controller
 {
@@ -209,5 +210,17 @@ class ExitClearanceController extends Controller
         return view('cleared',array(
             'resigns'=>$resigns
         ));
+    }
+
+    public function generateClearanceForm($id)
+    {
+        $data = [];
+
+        $resign = ExitResign::with('exit_clearance.department','exit_clearance.checklists','exit_clearance.signatories')->findOrfail($id);
+        $data['resign'] = $resign;
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('clearance_form',$data)->setPaper('legal', 'portrait');
+        return $pdf->stream();
     }
 }
