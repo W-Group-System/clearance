@@ -247,13 +247,30 @@
                     @endforeach
                 </td>
                 <td>
-                    {{-- @foreach($exit->checklists as $checklist)
-                        <p class="m-0 text-center">{{$checklist->status}}</p>
-                    @endforeach --}}
+                    @php
+                        $is_completed = false;
+                    @endphp
+                    @foreach($exit->checklists as $checklist)
+                        @if($checklist->exit_clearance_id == $exit->id)
+                            @php
+                                $check = $exit->checklists->every(function($item){
+                                    return $item->status == 'Completed' || $item->status == 'N/A';
+                                });
+
+                                if ($check) {
+                                    $is_completed = true;
+                                }
+                            @endphp
+                        @endif
+                    @endforeach
+
+                    @if($is_completed)
+                        <p class="text-center">Completed</p>
+                    @endif
                 </td>
                 <td>
                     @foreach($exit->signatories as $signatory)
-                        <p class="m-0 text-center">{{$signatory->Employee->user_info->name}}</p>
+                        <p class="m-0 text-center @if($signatory->status == 'Pending') text-danger @else text-success @endif">{{$signatory->Employee->user_info->name}}</p>
                     @endforeach
                 </td>
             </tr>
