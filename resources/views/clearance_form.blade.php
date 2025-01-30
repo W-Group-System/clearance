@@ -109,6 +109,19 @@
             border-bottom: none;
             border-top: none;
         } */
+
+        .shade-box {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 3px;
+            text-align: center;
+            /* line-height: 110px; */
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
 
@@ -243,7 +256,12 @@
                 </td>
                 <td>
                     @foreach($exit->checklists as $checklist)
-                        <p class="mb-0"><span><input type="checkbox" class="mb-0" @if($checklist->status == 'Completed' || $checklist->status == 'N/A') checked @endif> </span>{{$checklist->checklist}}</p>
+                        {{-- <p class="mb-0"><span><input type="checkbox" class="mb-0" @if($checklist->status == 'Completed' || $checklist->status == 'N/A') checked @endif> </span>{{$checklist->checklist}}</p> --}}
+
+                        <p class="mb-0">
+                            <div class="shade-box" style="@if($checklist->status == 'Completed' || $checklist->status == 'N/A') background-color:black; @endif"></div>
+                            {{$checklist->checklist}}
+                        </p>
                     @endforeach
                 </td>
                 <td>
