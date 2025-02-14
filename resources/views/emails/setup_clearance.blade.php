@@ -310,7 +310,7 @@
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
-                  <p>Dear {{$data['employee_info']->last_name}},</p>
+                  <p>Dear @if($data['employee_info']->gender == "MALE") Mr @else Ms. @endif {{$data['employee_info']->last_name}},</p>
                   <p>We’re excited to inform you that your Online Clearance process is now fully set up and ready for use!</p>
                   <p>You can access it anytime through the following <a class='btn btn-sm btn-info' href="https://hris.wsystem.online/my-clearance">link</a>.</p>
                   
