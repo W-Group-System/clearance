@@ -218,10 +218,10 @@
         </div> <!-- end card-->
     </div> <!-- end col-->
 
-    <div class="col-xl-3 col-lg-6 order-lg-1">
+    {{-- <div class="col-xl-3 col-lg-6 order-lg-1">
         <div class="card">
             <div class="card-body">
-                {{-- <div class="dropdown float-end">
+                <div class="dropdown float-end">
                     <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="mdi mdi-dots-vertical"></i>
                     </a>
@@ -235,7 +235,7 @@
                         <!-- item-->
                         <a href="javascript:void(0);" class="dropdown-item">Action</a>
                     </div>
-                </div> --}}
+                </div>
                 <h4 class="header-title mb-2">Recent Activity</h4>
 
                 <div data-simplebar="" style="max-height: 419px;"> 
@@ -333,7 +333,7 @@
             <!-- end card-body -->
         </div>
         <!-- end card-->
-    </div>
+    </div> --}}
     <!-- end col -->
 
 </div>
