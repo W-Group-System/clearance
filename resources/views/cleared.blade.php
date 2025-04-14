@@ -87,6 +87,7 @@
                       </span>
                   </p>
                   <br>
+                  <span>Date Created: {{date('M d, Y',strtotime($resign->created_at))}}</span> <br>
                   <span>Date Cleared: {{date('M d, Y',strtotime($resign->date_cleared))}}</span> <br>
                   @php
                     $d1 = new DateTime($resign->created_at);
@@ -95,8 +96,8 @@
                     $diff = $d2->diff($d1);
                     $diff_computation = $d2->diff($d3);
                 @endphp
-                  <span>TAT Clearance Completed: {{$diff->d}} Day/s</span> <br>
-                  <span>Computation Days: {{$diff_computation->d}} Day/s</span>
+                  <span>TAT Clearance Completed: {{$diff->days}} Day/s</span> <br>
+                  <span>Computation Days: {{$diff_computation->days}} Day/s</span>
               </div> <!-- end card-body-->
               <ul class="list-group list-group-flush">
                   <li class="list-group-item p-3">
