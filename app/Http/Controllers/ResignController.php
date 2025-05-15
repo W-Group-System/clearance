@@ -162,4 +162,20 @@ class ResignController extends Controller
             )
         );
     }
+
+    public function editResignationLetter(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        $exit_resign = ExitResign::findOrFail($id);
+
+        $resignation_letter_file = $request->file('resignation_letter');
+        $name = time().'_'.$resignation_letter_file->getClientOriginalName();
+        $resignation_letter_file->move(public_path('resignation_letters'), $name);
+
+        $exit_resign->resignation_letter = '/resignation_letters/'.$name;
+        $exit_resign->save();
+
+        Alert::success('Successfully Updated')->persistent('Dismiss');
+        return back();
+    }
 }

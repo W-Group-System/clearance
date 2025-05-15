@@ -58,5 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('generate-clearance-form/{id}','ExitClearanceController@generateClearanceForm');
 
+    Route::post('edit_resignation_letter/{id}', 'ResignController@editResignationLetter');
 });
 

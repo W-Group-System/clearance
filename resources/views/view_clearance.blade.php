@@ -13,6 +13,7 @@
 
                 <a href="{{url($resignEmployee->resignation_letter)}}" target='_blank'><button type="button" class="btn btn-success btn-sm mb-2">Resignation Letter</button></a>
                 <a href="{{url($resignEmployee->acceptance_letter)}}" target='_blank'><button type="button" class="btn btn-danger btn-sm mb-2">Acceptance Letter</button></a>
+                <button type="button" class="btn btn-warning btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#editResignEmployee{{ $resignEmployee->id }}">Edit</button>
             </div> <!-- end card-body -->
           </div>
           <div class="card mb-4">
@@ -147,4 +148,6 @@
         </div>
     </div>
 </div>
+
+@include('edit_resign_employee')
 @endsection
