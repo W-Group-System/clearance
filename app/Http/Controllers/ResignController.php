@@ -194,7 +194,7 @@ class ResignController extends Controller
             return back();
         }
 
-        Alert::warning('Error! Please fill-up the fields before submitting')->persistent('Dismiss');
-        return back();
+        // Alert::warning('Error! Please fill-up the fields before submitting')->persistent('Dismiss');
+        // return back();
     }
 }
