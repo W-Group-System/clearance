@@ -11,7 +11,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             Edit Resignation Letter :
-                            <input type="file" name="resignation_letter" class="form-control form-control-sm" required>
+                            <input type="file" name="resignation_letter" class="form-control form-control-sm" >
+                        </div>
+                        <div class="col-md-12">
+                            Edit Acceptance Letter :
+                            <input type="file" name="acceptance_letter" class="form-control form-control-sm" >
                         </div>
                     </div>
                 </div>
