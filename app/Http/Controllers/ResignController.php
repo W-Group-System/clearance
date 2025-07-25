@@ -81,7 +81,7 @@ class ResignController extends Controller
         $data = [];
         $data['employee_info'] = $employee;
         $data['last_employment'] = $exitResign;
-        $send_update = Mail::to([$exitResign->personal_email, $employee->user_info->email])->cc($users_admin)->send(new UploadResignation($data));
+        // $send_update = Mail::to([$exitResign->personal_email, $employee->user_info->email])->cc($users_admin)->send(new UploadResignation($data));
         // $send_update = Mail::to("renz.cabato@wgroup.com.ph")->send(new LeaveNotification($details));
         Alert::success('Successfully Stored')->persistent('Dismiss');
         return redirect('resigned-employees');
@@ -98,7 +98,7 @@ class ResignController extends Controller
         $employeeResign = Employee::findOrfail($resignEmployee->employee_id);
         $data = [];
         $data['employee_info'] = $employeeResign;
-        $send_update = Mail::to([$resignEmployee->personal_email, $employeeResign->user_info->email])->send(new SetupClearance($data));
+        // $send_update = Mail::to([$resignEmployee->personal_email, $employeeResign->user_info->email])->send(new SetupClearance($data));
         foreach($request->checklists as $key => $checklist)
         {
             $exitClearance = new ExitClearance;
@@ -133,7 +133,7 @@ class ResignController extends Controller
                 $data['employee_info'] = $employee_signatory;
                 $data['resignee_info'] = $employeeResign;
 
-                $send_update = Mail::to([$employee_signatory->user_info->email])->send(new Signatory($data));
+                // $send_update = Mail::to([$employee_signatory->user_info->email])->send(new Signatory($data));
             }
         } 
         $resignEmployee->status = "Ongoing Clearance";   
