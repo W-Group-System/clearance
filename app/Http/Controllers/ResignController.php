@@ -98,7 +98,7 @@ class ResignController extends Controller
         $employeeResign = Employee::findOrfail($resignEmployee->employee_id);
         $data = [];
         $data['employee_info'] = $employeeResign;
-        $send_update = Mail::to([$resignEmployee->personal_email, $employeeResign->user_info->email])->send(new SetupClearance($data));
+        // $send_update = Mail::to([$resignEmployee->personal_email, $employeeResign->user_info->email])->send(new SetupClearance($data));
         foreach($request->checklists as $key => $checklist)
         {
             $exitClearance = new ExitClearance;
