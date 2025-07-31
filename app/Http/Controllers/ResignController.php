@@ -133,7 +133,7 @@ class ResignController extends Controller
                 $data['employee_info'] = $employee_signatory;
                 $data['resignee_info'] = $employeeResign;
 
-                $send_update = Mail::to([$employee_signatory->user_info->email])->send(new Signatory($data));
+                // $send_update = Mail::to([$employee_signatory->user_info->email])->send(new Signatory($data));
             }
         } 
         $resignEmployee->status = "Ongoing Clearance";   
