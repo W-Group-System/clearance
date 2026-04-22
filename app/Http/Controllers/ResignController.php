@@ -168,32 +168,48 @@ class ResignController extends Controller
         // dd($request->all(), $id);
         $exit_resign = ExitResign::findOrFail($id);
 
-        if ($request->has('resignation_letter'))
-        {
-            $resignation_letter_file = $request->file('resignation_letter');
-            $name = time().'_'.$resignation_letter_file->getClientOriginalName();
-            $resignation_letter_file->move(public_path('resignation_letters'), $name);
-    
+        if ($request->hasFile('resignation_letter')) {
+            $file = $request->file('resignation_letter');
+            $name = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('resignation_letters'), $name);
+
             $exit_resign->resignation_letter = '/resignation_letters/'.$name;
-            $exit_resign->save();
-    
-            Alert::success('Successfully Updated')->persistent('Dismiss');
-            return back();
         }
 
-        if ($request->has('acceptance_letter'))
-        {
-            $acceptance_letter_file = $request->file('acceptance_letter');
-            $name = time().'_'.$acceptance_letter_file->getClientOriginalName();
-            $acceptance_letter_file->move(public_path('acceptance_letters'), $name);
-    
+        if ($request->hasFile('acceptance_letter')) {
+            $file = $request->file('acceptance_letter');
+            $name = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('acceptance_letters'), $name);
+
             $exit_resign->acceptance_letter = '/acceptance_letters/'.$name;
-            $exit_resign->save();
+        }
+
+        $exit_resign->save();
+
+        // if ($request->has('resignation_letter'))
+        // {
+        //     $resignation_letter_file = $request->file('resignation_letter');
+        //     $name = time().'_'.$resignation_letter_file->getClientOriginalName();
+        //     $resignation_letter_file->move(public_path('resignation_letters'), $name);
+    
+        //     $exit_resign->resignation_letter = '/resignation_letters/'.$name;
+            
+        // }
+
+        // if ($request->has('acceptance_letter'))
+        // {
+        //     $acceptance_letter_file = $request->file('acceptance_letter');
+        //     $name = time().'_'.$acceptance_letter_file->getClientOriginalName();
+        //     $acceptance_letter_file->move(public_path('acceptance_letters'), $name);
+    
+        //     $exit_resign->acceptance_letter = '/acceptance_letters/'.$name;
+            
+        // }
+
+        //     $exit_resign->save();
     
             Alert::success('Successfully Updated')->persistent('Dismiss');
             return back();
-        }
-
         // Alert::warning('Error! Please fill-up the fields before submitting')->persistent('Dismiss');
         // return back();
     }
