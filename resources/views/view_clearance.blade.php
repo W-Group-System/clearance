@@ -17,8 +17,15 @@
             </div> <!-- end card-body -->
           </div>
           <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>Employment Information</h6>
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">Employment Information</h6>
+
+                <button type="button"
+                        class="btn btn-warning btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editResignEmployeeInformation{{ $resignEmployee->id }}">
+                    Edit
+                </button>
             </div>
             <div class="card-body ">
               <div class='row'>
@@ -150,4 +157,5 @@
 </div>
 
 @include('edit_resign_employee')
+@include('edit_resign_employee_info')
 @endsection
