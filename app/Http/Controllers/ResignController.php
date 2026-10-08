@@ -213,4 +213,14 @@ class ResignController extends Controller
         // Alert::warning('Error! Please fill-up the fields before submitting')->persistent('Dismiss');
         // return back();
     }
+    public function editEmployeeInfo(Request $request, $id)
+    {
+        $exit_resign = ExitResign::findOrFail($id);
+        $exit_resign->last_date = $request->last_date;
+        $exit_resign->save();
+     
+        Alert::success('Successfully Stored')->persistent('Dismiss');
+        return back();
+
+    }
 }
